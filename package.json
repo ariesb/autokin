@@ -8,6 +8,9 @@
     "test": "cucumber-js --format progress-bar",
     "ut": "nyc --reporter=text mocha test -c --reporter spec"
   },
+  "bin": {
+    "autokin": "./bin/autokin"
+  },
   "keywords": [
     "autokin",
     "gherkin",
@@ -32,5 +35,9 @@
   "devDependencies": {
     "nock": "^10.0.6",
     "nyc": "^13.1.0"
-  }
+  },
+  "files": [
+    "bin/",
+    "lib/"
+  ]
 }
