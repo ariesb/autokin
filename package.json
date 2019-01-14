@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint",
-    "test": "cucumber-js --format progress-bar",
-    "ut": "nyc --reporter=text mocha test -c --reporter spec"
+    "features": "cucumber-js --format progress-bar",
+    "test": "nyc --reporter=text mocha test -c --reporter spec"
   },
   "bin": {
     "autokin": "./bin/autokin"
