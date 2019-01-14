@@ -1,0 +1,36 @@
+{
+  "name": "autokin",
+  "version": "0.0.1",
+  "description": "Autokin - Simple REST Automation by Gherkin",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint",
+    "test": "cucumber-js --format progress-bar",
+    "ut": "nyc --reporter=text mocha test -c --reporter spec"
+  },
+  "keywords": [
+    "autokin",
+    "gherkin",
+    "REST",
+    "API",
+    "testing",
+    "automation"
+  ],
+  "author": "Aries Beltran <ariesbe@icloud.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "commander": "^2.19.0",
+    "cucumber": "^5.1.0",
+    "deep-diff": "^1.0.2",
+    "eslint": "^5.12.0",
+    "eslint-plugin-mocha": "^5.2.1",
+    "jsonpath": "^1.0.0",
+    "mocha": "^5.2.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "nock": "^10.0.6",
+    "nyc": "^13.1.0"
+  }
+}
