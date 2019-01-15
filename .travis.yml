@@ -12,3 +12,5 @@ matrix:
     - node_js: "11.4"
       script: "yarn test"
       after_success: "yarn test-coveralls"    
+
+sudo: false

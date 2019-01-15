@@ -3,10 +3,10 @@
 // Autokin - Runner
 // Copyright 2018 Aries Beltran <ariesbe@icloud.com>
 // Licensed under the MIT license. See LICENSE.
-
+const package = require('autokin/package.json');
 const program = require('commander');
 program
-    .version('0.1.0')
+    .version(package.version)
     .option('-i, --init', 'Initialised new Autokin project structure')
     .option('-e, --exec', 'Execute automation test')
     .parse(process.argv);
@@ -15,4 +15,6 @@ if (program.init) {
     require('./autokin-init').default();
 } else if (program.exec) {
     require('./autokin-cli').default();
-}    
+} else {
+    program.outputHelp();
+}

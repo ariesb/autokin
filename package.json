@@ -1,6 +1,6 @@
 {
   "name": "autokin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Autokin - Simple REST Automation by Gherkin",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,13 @@
   ],
   "author": "Aries Beltran <ariesbe@icloud.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ariesb/autokin.git" 
+  },
+  "bugs": {
+    "url": "https://github.com/ariesb/autokin/issues"
+  },
   "dependencies": {
     "chai": "^4.2.0",
     "commander": "^2.19.0",
