@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint",
     "features": "cucumber-js --format progress-bar",
-    "test": "nyc --reporter=text mocha test -c",
-    "test-coveralls": "&& nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc --reporter=text --reporter=lcov mocha test -c",
+    "test-coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "bin": {
     "autokin": "./bin/autokin"
