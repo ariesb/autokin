@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ariesb/autokin.svg?branch=master)](https://travis-ci.org/ariesb/autokin) 
+[![Build Status](https://travis-ci.org/ariesb/autokin.svg?branch=master)](https://travis-ci.org/ariesb/autokin) [![Coverage Status](https://coveralls.io/repos/github/ariesb/autokin/badge.svg?branch=master)](https://coveralls.io/github/ariesb/autokin?branch=master)
 
 # Autokin (Automation by Gherkin)
 
