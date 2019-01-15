@@ -14,9 +14,9 @@ Feature: HTTP Bin REST Service
         Then response body should be valid json
         Then response header "Server" should exist
         Then response header "Server" should be "cloudflare"
-        Then response body should have JSON path "$.data.id"
-        Then I expect that "$.data.first_name" has value of "Janet"
-        Then I expect that "$.data.id" has value of 2
+        Then response body should have path "$.data.id"
+        Then I expect that path "$.data.first_name" from body has value of "Janet"
+        Then I expect that path "$.data.id" from body has value of 2
         Then I keep the value of header "Server" as "sourceServer"
         Then response body should be json data of
         """
