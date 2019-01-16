@@ -208,4 +208,4 @@ We can also assert if the value stored is the same as what we are expecting.
 
 #
 
-See more examples on using [When](../blob/master/docs/WHEN.md) and [Given](../blob/master/docs/GIVEN.md) gherkin steps.
+See more examples on using [When](WHEN.md) and [Given](GIVEN.md) gherkin steps.

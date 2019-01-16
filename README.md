@@ -197,5 +197,5 @@ There are several steps that we can use to combine different test, expectations,
 | Then I keep the value of header {name} as {storage name} |  Store the value of the header as the specified storage name |
 | Then I expect that the stored value in {storage name} is {expected value}|  Assert if the stored name has the expected value |
 
-For complete examples, [see docs ](../blob/master/docs).
+For complete examples, [see docs ](docs).
 

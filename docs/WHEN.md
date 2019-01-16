@@ -62,4 +62,4 @@ When you need to use the `PATCH` method us this step.
 
 #
 
-See more examples on using [Then](../blob/master/docs/THEN.md) and [Given](../blob/master/docs/GIVEN.md) gherkin steps.
+See more examples on using [Then](THEN.md) and [Given](GIVEN.md) gherkin steps.

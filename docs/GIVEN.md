@@ -141,4 +141,4 @@ Sets bearer token with a previously stored value. For example, in one of the pre
 
 #
 
-See more examples on using [Then](../blob/master/docs/THEN.md) and [When](../blob/master/docs/WHEN.md) gherkin steps.
+See more examples on using [Then](THEN.md) and [When](WHEN.md) gherkin steps.
