@@ -38,11 +38,11 @@ This will create the necessary folder structure and sample files.
 
 ```json
    my-autokin-project
-      |- features
-      |    |- support
-      |         |- support.js
+      ├── features
+      |    ├── support
+      |         ├── support.js
       |
-      |- first.feature
+      └── first.feature
 ```
 
 Let's run the test!
@@ -68,7 +68,7 @@ It should have the following output:
 
 For example we do have an endpoint as https://reqres.in/api/users/2, which is to fetch a user information. So let's start writing our Feature and Scenario, open the `first.feature` file that was previously generated. The file should have the following content:
 
-```
+```gherkin
 @autokin
 Feature: My Feature
 	As Autokin tester
@@ -79,7 +79,7 @@ Scenario: My First Scenario
 
 Now I want to say that I want to access the endpoint:
 
-```
+```gherkin
 @autokin
 Feature: My Feature
 	As Autokin tester
@@ -103,7 +103,7 @@ At this point we already access the endpoint, and we can run test.
 
 Let's add some test on it. We know that the endpoint will return a 200 status code. Let us add that as verification item, but instead of 200 we expect 400 for it to generate an error. We add the new step after the `When`.
 
-```
+```gherkin
 Scenario: My First Scenario
     Given that a secure endpoint is up at reqres.in
     When I GET /api/users/2
@@ -137,7 +137,7 @@ Failures:
 
 As expected it will generate an error. Fixing the expected value to 200 and running the test will have a clean successful run.
 
-```
+```gherkin
 Scenario: My First Scenario
     Given that a secure endpoint is up at reqres.in
     When I GET /api/users/2
@@ -197,4 +197,5 @@ There are several steps that we can use to combine different test, expectations,
 | Then I keep the value of header {name} as {storage name} |  Store the value of the header as the specified storage name |
 | Then I expect that the stored value in {storage name} is {expected value}|  Assert if the stored name has the expected value |
 
-For complete examples, [see docs ](../docs).
+For complete examples, [see docs ](../blob/master/docs).
+
