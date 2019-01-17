@@ -1,0 +1,158 @@
+[
+    {
+        "description": "\tAs Autokin developer\n\tI want to verify that all API are working as they should",
+        "keyword": "Feature",
+        "name": "My Feature",
+        "line": 2,
+        "id": "my-feature",
+        "tags": [
+            {
+                "name": "@autokin",
+                "line": 1
+            }
+        ],
+        "uri": "features/initial.feature",
+        "elements": [
+            {
+                "id": "my-feature;my-first-scenario",
+                "keyword": "Scenario",
+                "line": 6,
+                "name": "Scenario 1",
+                "tags": [
+                    {
+                        "name": "@autokin",
+                        "line": 1
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Before",
+                        "hidden": true,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    },
+                    {
+                        "keyword": "Given",
+                        "hidden": false,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "failed"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "my-feature;my-first-scenario",
+                "keyword": "Scenario",
+                "line": 6,
+                "name": "Scenario 2",
+                "tags": [
+                    {
+                        "name": "@autokin",
+                        "line": 1
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Before",
+                        "hidden": true,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    },
+                    {
+                        "keyword": "Given",
+                        "hidden": false,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "my-feature;my-first-scenario",
+                "keyword": "Scenario",
+                "line": 6,
+                "name": "Scenario 3",
+                "tags": [
+                    {
+                        "name": "@autokin",
+                        "line": 1
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Before",
+                        "hidden": true,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    },
+                    {
+                        "keyword": "Given",
+                        "hidden": false,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "my-feature;my-first-scenario",
+                "keyword": "Scenario",
+                "line": 6,
+                "name": "Scenario 4",
+                "tags": [
+                    {
+                        "name": "@autokin",
+                        "line": 1
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    {
+                        "keyword": "Before",
+                        "hidden": true,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    },
+                    {
+                        "keyword": "Given",
+                        "hidden": false,
+                        "match": {
+                            "location": "lib/autokin-rest-steps.js:15"
+                        },
+                        "result": {
+                            "status": "passed"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -57,11 +57,23 @@ Simply, issue the command below to run the test.
 It should have the following output:
 ```bash
 ./node_modules/.bin/autokin -e
-.
+Autokin Test Run
+Feature: My Feature > My First Scenario - ✔ Passed
 
-1 scenario (1 passed)
-0 steps
-0m00.001s
+Test Result Summary
+┌────────────┬────────┬───────────┬───────┐
+│ Features   │ Result │ Scenarios │ Steps │
+├────────────┼────────┼───────────┼───────┤
+│ My Feature │    --- │         1 │     0 │
+└────────────┴────────┴───────────┴───────┘
+
+┌────────────────────────┬────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┐
+│ Features / Scenarios   │ Result │ Steps │ Passed │ Failed │ Skipped │ Pending │ Ambiguous │ Unknown │
+├────────────────────────┴────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┤
+│ My Feature                                                                                          │
+├────────────────────────┬────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┤
+│      My First Scenario │ ---    │     0 │      0 │      0 │       0 │       0 │         0 │       0 │
+└────────────────────────┴────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
 
 ## Creating your first REST Gherkin
@@ -94,11 +106,23 @@ We added 2 lines, first we define that we want to access a secure (https) endpoi
 At this point we already access the endpoint, and we can run test.
 ```bash
 ./node_modules/.bin/autokin -e
-...
+Autokin Test Run
+Feature: My Feature > My First Scenario - ✔ Passed
 
-1 scenario (1 passed)
-2 steps (2 passed)
-0m03.274s
+Test Result Summary
+┌────────────┬────────┬───────────┬───────┐
+│ Features   │ Result │ Scenarios │ Steps │
+├────────────┼────────┼───────────┼───────┤
+│ My Feature │    100 │         1 │     2 │
+└────────────┴────────┴───────────┴───────┘
+
+┌────────────────────────┬──────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┐
+│ Features / Scenarios   │ Result   │ Steps │ Passed │ Failed │ Skipped │ Pending │ Ambiguous │ Unknown │
+├────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┤
+│ My Feature                                                                                            │
+├────────────────────────┬──────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┤
+│      My First Scenario │ ✔ Passed │     2 │      2 │      0 │       0 │       0 │         0 │       0 │
+└────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
 
 Let's add some test on it. We know that the endpoint will return a 200 status code. Let us add that as verification item, but instead of 200 we expect 400 for it to generate an error. We add the new step after the `When`.
@@ -113,26 +137,23 @@ Yes, it should be that sentence, we can only change the value that we expect. Le
 
 ```
 ./node_modules/.bin/autokin -e
-...F
+Autokin Test Run
+Feature: My Feature > My First Scenario - ✖ Failed
 
-Failures:
+Test Result Summary
+┌────────────┬───────────────────┬───────────┬───────┐
+│ Features   │            Result │ Scenarios │ Steps │
+├────────────┼───────────────────┼───────────┼───────┤
+│ My Feature │ 66.66666666666666 │         1 │     3 │
+└────────────┴───────────────────┴───────────┴───────┘
 
-1) Scenario: My First Scenario # features/first.feature:6
-   ✔ Before # node_modules/autokin/lib/autokin-rest-steps.js:15
-   ✔ Given that a secure endpoint is up at reqres.in # node_modules/autokin/lib/autokin-rest-steps.js:27
-   ✔ When I GET /api/users/2 # node_modules/autokin/lib/autokin-rest-steps.js:79
-   ✖ Then response status code should be 400 # node_modules/autokin/lib/autokin-rest-steps.js:124
-       AssertionError
-           + expected - actual
-
-           -200
-           +400
-
-           at World.<anonymous> (lib/autokin-rest-steps.js:125:48)
-
-1 scenario (1 failed)
-3 steps (1 failed, 2 passed)
-0m01.008s
+┌────────────────────────┬──────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┐
+│ Features / Scenarios   │ Result   │ Steps │ Passed │ Failed │ Skipped │ Pending │ Ambiguous │ Unknown │
+├────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┤
+│ My Feature                                                                                            │
+├────────────────────────┬──────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┤
+│      My First Scenario │ ✖ Failed │     3 │      2 │      1 │       0 │       0 │         0 │       0 │
+└────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
 
 As expected it will generate an error. Fixing the expected value to 200 and running the test will have a clean successful run.
@@ -147,11 +168,23 @@ Yes, it should be that sentence, we can only change the value that we expect. Le
 
 ```
 ./node_modules/.bin/autokin -e
-....
+Autokin Test Run
+Feature: My Feature > My First Scenario - ✔ Passed
 
-1 scenario (1 passed)
-3 steps (3 passed)
-0m01.017s
+Test Result Summary
+┌────────────┬────────┬───────────┬───────┐
+│ Features   │ Result │ Scenarios │ Steps │
+├────────────┼────────┼───────────┼───────┤
+│ My Feature │    100 │         1 │     3 │
+└────────────┴────────┴───────────┴───────┘
+
+┌────────────────────────┬──────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┐
+│ Features / Scenarios   │ Result   │ Steps │ Passed │ Failed │ Skipped │ Pending │ Ambiguous │ Unknown │
+├────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┤
+│ My Feature                                                                                            │
+├────────────────────────┬──────────┬───────┬────────┬────────┬─────────┬─────────┬───────────┬─────────┤
+│      My First Scenario │ ✔ Passed │     3 │      3 │      0 │       0 │       0 │         0 │       0 │
+└────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
 
 ## Autokin Gherkin Steps

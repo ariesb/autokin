@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint",
     "features": "cucumber-js --format progress-bar",
-    "test": "nyc --reporter=text --reporter=lcov mocha test -c",
+    "test": "eslint lib/**/*.js test/**/*.js && nyc --reporter=text --reporter=lcov mocha test -c",
     "test-coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "bin": {
@@ -24,13 +24,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ariesb/autokin.git" 
+    "url": "git://github.com/ariesb/autokin.git"
   },
   "bugs": {
     "url": "https://github.com/ariesb/autokin/issues"
   },
   "dependencies": {
     "chai": "^4.2.0",
+    "cli-table3": "^0.5.1",
     "commander": "^2.19.0",
     "cucumber": "^5.1.0",
     "deep-diff": "^1.0.2",

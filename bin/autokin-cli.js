@@ -5,7 +5,7 @@
  * Autokin - Wraps CucumbeJS CLI
  */
 module.exports.default = function () {
-    let cli = new (require('cucumber').Cli)({ argv: ['--format', 'progress'], cwd: process.cwd(), stdout: process.stdout });
+    let cli = new (require('cucumber').Cli)({ argv: ['--format=lib/formatter/autokin-formatter', '--format=json:autokin-report.json'], cwd: process.cwd(), stdout: process.stdout });
     new Promise(function (resolve, reject) {
         try {
             return cli.run()

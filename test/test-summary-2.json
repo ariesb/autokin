@@ -1,0 +1,34 @@
+[
+    {
+        "description": "\tAs Autokin developer\n\tI want to verify that all API are working as they should",
+        "keyword": "Feature",
+        "name": "My Feature",
+        "line": 2,
+        "id": "my-feature",
+        "tags": [
+            {
+                "name": "@autokin",
+                "line": 1
+            }
+        ],
+        "uri": "features/initial.feature",
+        "elements": [
+            {
+                "id": "my-feature;my-first-scenario",
+                "keyword": "Scenario",
+                "line": 6,
+                "name": "My First Scenario",
+                "tags": [
+                    {
+                        "name": "@autokin",
+                        "line": 1
+                    }
+                ],
+                "type": "scenario",
+                "steps": [
+                    
+                ]
+            }
+        ]
+    }
+]
