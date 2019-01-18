@@ -28,6 +28,41 @@ const formatter = new AutokinFormatter({
                 },
                 pickle: {
                     name: 'scenario'
+                },
+                testCase: {
+                    'steps': [
+                        {
+                            'actionLocation': {
+                                'uri': 'lib/autokin-rest-steps.js',
+                                'line': 15
+                            },
+                            'result': {
+                                'duration': 0,
+                                'status': 'passed'
+                            }
+                        },
+                        {
+                            'actionLocation': {
+                                'uri': 'lib/autokin-rest-steps.js',
+                                'line': 15
+                            },
+                            'result': {
+                                'duration': 0,
+                                'status': 'failed',
+                                'exception': {
+                                    'message': 'expect 0 but 1'
+                                }
+                            }
+                        }
+                    ]
+                }
+            };
+        },
+        getTestStepData: () => {
+            return {
+                gherkinKeyword: 'Then',
+                pickleStep: {
+                    text: 'expect step'
                 }
             };
         }
@@ -95,9 +130,15 @@ describe('Autokin Formatter', function () {
 
         it('should be able to process : test-case-finished - failed', function () {
             formatter.logFn = (data) => {
-                assert.strictEqual(colors.stripColors(data), ' - ✖ Failed \n');
+                assert.strictEqual(colors.stripColors(data), ' - ✖ Failed\n\t\tThenexpect step - expect 0 but 1 \n');
             };
-            eventBroadcaster.emit('test-case-finished', { result: { status: 'failed' } });
+            eventBroadcaster.emit('test-case-finished', {
+                result: {
+                    status: 'failed', 'exception': {
+                        'message': 'expect 0 but 1'
+                    }
+                }
+            });
         });
 
         it('should be able to process : test-case-started', function () {
