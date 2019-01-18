@@ -4,8 +4,16 @@
  * 
  * Autokin - Wraps CucumbeJS CLI
  */
+const path = require('path');
+const fs = require('fs');
+
 module.exports.default = function () {
-    let cli = new (require('cucumber').Cli)({ argv: ['--format=lib/formatter/autokin-formatter', '--format=json:autokin-report.json'], cwd: process.cwd(), stdout: process.stdout });
+    let formatterPath = path.resolve(__dirname, '../lib/formatter/autokin-formatter');
+
+    if (!fs.existsSync('reports')) {
+        fs.mkdirSync('reports');
+    }
+    let cli = new (require('cucumber').Cli)({ argv: ['','','--format=json:reports/autokin-report.json', '--format=' + formatterPath], cwd: process.cwd(), stdout: process.stdout });
     new Promise(function (resolve, reject) {
         try {
             return cli.run()

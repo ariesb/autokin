@@ -4,8 +4,10 @@
 // Copyright 2018 Aries Beltran <ariesbe@icloud.com>
 // Licensed under the MIT license. See LICENSE.
 const program = require('commander');
+const path = require('path');
+const package = require(path.resolve(__dirname, '../package.json'));
 program
-    .version('0.1.1')
+    .version(package.version)
     .option('-i, --init', 'Initialised new Autokin project structure')
     .option('-e, --exec', 'Execute automation test')
     .parse(process.argv);
