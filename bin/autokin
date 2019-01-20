@@ -10,12 +10,15 @@ program
     .version(package.version)
     .option('-i, --init', 'Initialised new Autokin project structure')
     .option('-e, --exec', 'Execute automation test')
+    .option('-t, --tags [tags]', 'Use with --exec to specify which tags to run, example:"@autokin"')
     .parse(process.argv);
+
+let _getTags = () => program.tags ? program.tags : undefined;    
 
 if (program.init) {
     require('./autokin-init').default();
 } else if (program.exec) {
-    require('./autokin-cli').default();
+    require('./autokin-cli').default(_getTags());
 } else {
     program.outputHelp();
 }
