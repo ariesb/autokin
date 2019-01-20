@@ -1,0 +1,78 @@
+[
+    {
+      "description": "    As Autokin developer\n    I want to verify that all API are working as they should",
+      "keyword": "Feature",
+      "name": "HTTP Bin REST Service",
+      "line": 2,
+      "id": "http-bin-rest-service",
+      "tags": [
+        {
+          "name": "@invalid",
+          "line": 1
+        }
+      ],
+      "uri": "features/invalidstep.feature",
+      "elements": [
+        {
+          "id": "http-bin-rest-service;my-3rd-scenario",
+          "keyword": "Scenario",
+          "line": 6,
+          "name": "My 3rd Scenario",
+          "tags": [
+            {
+              "name": "@invalid",
+              "line": 1
+            }
+          ],
+          "type": "scenario",
+          "steps": [
+            {
+              "keyword": "Before",
+              "hidden": true,
+              "match": {
+                "location": "lib/autokin-rest-steps.js:15"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 1000000
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "Given ",
+              "line": 7,
+              "name": "that a secure endpoint is up at jsonplaceholder.typicode.com",
+              "match": {
+                "location": "lib/autokin-rest-steps.js:27"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 1000000
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "When ",
+              "line": 8,
+              "name": "I DELETE post/1",
+              "result": {
+                "status": "undefined"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "Then ",
+              "line": 9,
+              "name": "response status code should be 200",
+              "match": {
+                "location": "lib/autokin-rest-steps.js:129"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]

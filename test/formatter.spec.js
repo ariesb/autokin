@@ -13,50 +13,14 @@ const clrs = {
 
 const eventBroadcaster = new _events.default();
 const logHook = () => {
-
 };
+
+let eventCollectorData = require('./event-collector-default-data.json');
 const formatter = new AutokinFormatter({
     eventBroadcaster: eventBroadcaster,
     eventDataCollector: {
         getTestCaseData: () => {
-            return {
-                gherkinDocument: {
-                    feature: {
-                        keyword: 'Feature',
-                        name: 'feature'
-                    }
-                },
-                pickle: {
-                    name: 'scenario'
-                },
-                testCase: {
-                    'steps': [
-                        {
-                            'actionLocation': {
-                                'uri': 'lib/autokin-rest-steps.js',
-                                'line': 15
-                            },
-                            'result': {
-                                'duration': 0,
-                                'status': 'passed'
-                            }
-                        },
-                        {
-                            'actionLocation': {
-                                'uri': 'lib/autokin-rest-steps.js',
-                                'line': 15
-                            },
-                            'result': {
-                                'duration': 0,
-                                'status': 'failed',
-                                'exception': {
-                                    'message': 'expect 0 but 1'
-                                }
-                            }
-                        }
-                    ]
-                }
-            };
+            return eventCollectorData;
         },
         getTestStepData: () => {
             return {
@@ -91,6 +55,13 @@ describe('Autokin Formatter', function () {
         afterEach(function () {
             formatter.logFn = () => {
             };
+        });
+
+        it('should be able to process : test-case-started', function () {
+            formatter.logFn = (data) => {
+                assert.strictEqual(colors.stripColors(data), 'Feature: feature > scenario');
+            };
+            eventBroadcaster.emit('test-case-started', { sourceLocation: {} });
         });
 
         it('should be able to process : test-run-started', function () {
@@ -141,12 +112,20 @@ describe('Autokin Formatter', function () {
             });
         });
 
-        it('should be able to process : test-case-started', function () {
+        it('should be able to process : test-case-finished - undefined', function () {
             formatter.logFn = (data) => {
-                assert.strictEqual(colors.stripColors(data), 'Feature: feature > scenario');
+                assert.strictEqual(colors.stripColors(data), ' - ✖ Failed\n\t\tThenexpect step - Please correct invalid Gherkin Step. \n');
             };
-            eventBroadcaster.emit('test-case-started', { sourceLocation: {} });
+
+            eventCollectorData = require('./event-collector-undefined-status.json');
+            eventBroadcaster.emit('test-case-finished', {
+                result: {
+                    status: 'undefined'
+                }
+            });
         });
+
+
     });
 
     describe('Summary Reporter', function () {
@@ -218,6 +197,18 @@ describe('Autokin Formatter', function () {
                 detailsSummaryTable.push(['     Scenario 2', '✔ Passed', 1, 1, 0, 0, 0, 0, 0]);
                 detailsSummaryTable.push(['     Scenario 3', '✔ Passed', 1, 1, 0, 0, 0, 0, 0]);
                 detailsSummaryTable.push(['     Scenario 4', '✔ Passed', 1, 1, 0, 0, 0, 0, 0]);
+                let expectedResult = '\nTest Result Summary\n' + featuresSummaryTable.toString() + ' \n\n' + detailsSummaryTable.toString() + ' \n';
+                assert.strictEqual(colors.stripColors(data), expectedResult);
+            };
+            formatter.log(JSON.stringify(data));
+        });
+
+        it('should be able to process summary - with invalid step', function () {
+            let data = require('./test-summary-5.json');
+            formatter.logFn = (data) => {
+                featuresSummaryTable.push(['HTTP Bin REST Service', 33.33333333333333, 1, 3]);
+                detailsSummaryTable.push([{ colSpan: 9, content: 'HTTP Bin REST Service' }]);
+                detailsSummaryTable.push(['     My 3rd Scenario', '✖ Failed', 3, 1, 0, 1, 0, 0, 1]);
                 let expectedResult = '\nTest Result Summary\n' + featuresSummaryTable.toString() + ' \n\n' + detailsSummaryTable.toString() + ' \n';
                 assert.strictEqual(colors.stripColors(data), expectedResult);
             };

@@ -1,0 +1,24 @@
+{
+    "gherkinDocument": {
+        "feature": {
+            "keyword": "Feature",
+            "name": "feature"
+        }
+    },
+    "pickle": {
+        "name": "scenario"
+    },
+    "testCase": {
+        "steps": [
+            {
+                "result": {
+                    "status": "undefined"
+                },
+                "sourceLocation": {
+                    "uri": "lib/autokin-rest-steps.js",
+                    "line": 15
+                }
+            }
+        ]
+    }
+}
