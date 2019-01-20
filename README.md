@@ -187,6 +187,54 @@ Test Result Summary
 └────────────────────────┴──────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
 
+## Targetting Test with Tags
+Let say I have now several features like the two examples below:
+
+` my-first-feature.feature`
+```gherkin
+@core
+Feature: My Feature
+	As Autokin tester
+	I want to verify that all API are working as they should
+
+Scenario: My First Scenario
+    Given that a secure endpoint is up at reqres.in
+    When I GET /api/users/2
+```
+The above feature file we tag that as `@core` feature, while below we tag that as `@fix-321` to denote that this is for the fix for `321 issue`.
+
+` my-second-feature.feature`
+```gherkin
+@fix-321
+Feature: My Feature
+	As Autokin tester
+	I want to verify that all API are working as they should
+
+Scenario: Verify if API does not accept character id
+    Given that a secure endpoint is up at reqres.in
+    When I GET /api/users/abc
+```
+
+So now we want to run the test but only focus on running `@fix-321`. WE can do this by using the following command.
+
+```bash
+./node_modules/.bin/autokin -e -t @fix-321
+```
+
+If we want to run only `@core` then we can use the following:
+```bash
+./node_modules/.bin/autokin -e -t @core
+```
+If we are nto passing the tags `-t` or `--tags` parameter, it will run everything.
+
+What if we want to run everything but not the `@core`, then we can also use the following command:
+
+```bash
+./node_modules/.bin/autokin -e -t "not @core"
+```
+
+See more about [tags](docs/TAGS.md).
+
 ## Autokin Gherkin Steps
 There are several steps that we can use to combine different test, expectations, and behaviour that is needed in our test. Here are the list of steps:
 
