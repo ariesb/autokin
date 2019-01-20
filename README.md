@@ -40,7 +40,7 @@ This will create the necessary folder structure and sample files.
    my-autokin-project
       ├── features
       |    ├── support
-      |         ├── support.js
+      |         ├── steps.js
       |
       └── first.feature
 ```
