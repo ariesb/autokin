@@ -43,6 +43,9 @@ describe('Rest Builder', function () {
                     'content-type': 'application/json'
                 },
                 body: '{ "data": 0 }',
+                timingPhases: {
+                    total: 400
+                },
                 statusCode: 200
             });
         });
@@ -57,6 +60,10 @@ describe('Rest Builder', function () {
         
         it('should be able to check HTTP Status Code from response', function () {
             assert.strictEqual(Builder.Response().statusCode(), 200);
+        });
+
+        it('should be able to check HTTP response time', function () {
+            assert.strictEqual(Builder.Response().responseTime(), 400);
         });
     });
 

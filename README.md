@@ -235,6 +235,71 @@ What if we want to run everything but not the `@core`, then we can also use the 
 
 See more about [tags](docs/TAGS.md).
 
+## Chaining
+Chaining is a way to continue another test that was previously executed. This is some how the nearest to chaining scenarios for Autokin. Let us say that you want to Login the user then use the session token to retrieve user information.
+
+```http
+    POST https://www.autokinjs.com/login
+    Headers:
+    Content-Type: application/json
+    {
+        "username": "juan",
+        "password": "p3dr0"
+    }
+
+    Response:
+    {
+        "sessionId": "2AA21boNhOM5zR3Xgn96qw=="
+    }
+
+    GET https://www.autokinjs.com/user/1001
+    Headers: 
+    Content-Type: application/json
+    SessionId: 2AA21boNhOM5zR3Xgn96qw==
+
+    Response:
+    {
+        "id": 1001,
+        "name": "Juan Pedro",
+        "age": 30 
+    }
+```
+
+So having that we can have this Feature definition:
+
+```gherkin
+@chaining
+Feature: My Chaining Feature
+	As Autokin tester
+	I want to verify that all API are working as they should
+
+    Scenario: Login to the system
+        Given that a secure endpoint is up at www.autokinjs.com
+        Given I set Content-Type header to application/json
+        Given I set the JSON body to 
+        """
+        {
+            "username": "juan",
+            "password": "p3dr0"
+        }
+        """
+        When I POST /login
+        Then response status code should be 200
+        Then I keep the value of body path "$.sessionId" as "userSessionToken"
+
+    Scenario: Get user information
+        Given that a secure endpoint is up at www.autokinjs.com
+        Given I set Content-Type header to application/json
+        Given I set SessionId header from "userSessionToken"
+        When I GET /user/1001
+        Then response status code should be 200
+
+```
+
+As you see in the above example, we login then we store the session token to a variable `userSessionToken`, the variable name can be anything as long as a one word. Following to our next scenario, as needed by our API, we set the header `SessionId` to the value of the previously stored data by sepcifying that we are getting the stored value from the variable `userSessionToken`.
+
+See more [examples](docs/examples).
+
 ## Autokin Gherkin Steps
 There are several steps that we can use to combine different test, expectations, and behaviour that is needed in our test. Here are the list of steps:
 
@@ -244,10 +309,15 @@ There are several steps that we can use to combine different test, expectations,
 | Given that a secure endpoint is up at {domain}    | Secured Endpoint Domain (https)   |
 | Given that a endpoint is up at {domain}           | HTTP only Endpoint Domain         |
 | Given I set {name} header to {value}              | Add headers  |
+| Given I set {name} header from {stored value name} | Add header with value from stored value  |
 | Given I set headers to                            | Add multiple headers |
 | Given I set query parameters to                   | Add query parameters |
+| Given I set query parameter {name} to {value}     | Add query parameter |
+| Given I set query parameter {name} from {stored value name}     | Add query parameter from the stored value |
 | Given I set the JSON body to                      | Set the body of the request |
 | Given I set the cookie to {cookie value pair}     | Add cookie value |
+| Given I set the cookie {name} to {value}  | Add cookie value |
+| Given I set the cookie {name} from {stored value name}  | Add cookie with value from stored value |
 | Given I have basic authentication credentials {username} and {password} | Set basic authentication |
 | Given I set the bearer token to {token} | Sets bearer token |
 | Given I set the bearer token with {stored value name} | Sets bearer token with stored value |
@@ -274,6 +344,8 @@ There are several steps that we can use to combine different test, expectations,
 | Then response body should be json data of | Assert if the expected JSON data is the same with the response body |
 | Then I expect that path {path} from body has value of {expected value}|  Assert JSON body if the path specified has the expected value |
 | Then response body should have path {path} | Assert if path exist from JSON body |
+| Then response time is not greater than {response time}ms | Assert if response time is not greater than expected |
+| Then response time is greater than {response time}ms | Assert if response time is greater than expected |
 | Then I keep the value of body path {path} as {storage name}| Store the value of the path as the specified storage name |
 | Then I keep the value of header {name} as {storage name} |  Store the value of the header as the specified storage name |
 | Then I expect that the stored value in {storage name} is {expected value}|  Assert if the stored name has the expected value |
