@@ -20,6 +20,7 @@
     "testing",
     "automation"
   ],
+  "homepage": "https://www.autokinjs.com",
   "author": "Aries Beltran <ariesbe@icloud.com>",
   "license": "MIT",
   "repository": {
@@ -36,7 +37,8 @@
     "cucumber": "^5.1.0",
     "deep-diff": "^1.0.2",
     "jsonpath": "^1.0.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "xmlbuilder": "^10.1.1"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
