@@ -1,5 +1,6 @@
 const assert = require('assert');
 const { RestBuilder, Response } = require('../lib/autokin-restbuilder');
+const Utils = require('../lib/utilities');
 const nock = require('nock');
 
 let Builder = null;
@@ -202,6 +203,31 @@ describe('Rest Builder', function () {
             Builder.host('domainx.com');
             Builder.process('/sample/uri', function () {
             });
+        });
+    });
+
+    describe('Body Schema Comaprison', function () {
+        it('should be able to validate data with correct expected schema', function () {
+            const dataResponse = {
+                sessionId: 'aGVsbG8gd29ybGQgYXJpZXM=',
+                name: 'Autokin',
+                status: 200
+            };
+            Builder.resp = new Response({ body: JSON.stringify(dataResponse) });
+            const result = Utils.expectAsSchema(Builder.Response().Body().asJSON(), './test/schema/basic-schema.json');
+            assert.strictEqual(result.length, 0);
+        });
+
+        it('should be able to validate data with invalid expected schema', function () {
+            const dataResponse = {
+                sessionId: 'aGVsbG8gd29ybGQgYXJpZXM=',
+                name: 'Autokin',
+                status: 0
+            };
+            Builder.resp = new Response({ body: JSON.stringify(dataResponse) });
+            const result = Utils.expectAsSchema(Builder.Response().Body().asJSON(), './test/schema/basic-schema.json');
+            assert.strictEqual(result.length, 1);
+            assert.strictEqual(result[0].path, '/status');
         });
     });
 });

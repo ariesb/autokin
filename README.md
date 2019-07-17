@@ -6,6 +6,11 @@ This is a simple package/library that helps tester to do automation of REST/API 
 
 All you need to know is Gherkin and you can start working and creating automated test for contract testing, or simple API test.
 
+## What's New
+* Ability to test response JSON Data against JSON Schema (https://json-schema.org/). See example.
+* Ability to test response execution time
+* New Console Log Outputs
+
 ## Creating an Autokin Project
 
 ### Make a project folder
@@ -298,6 +303,90 @@ Feature: My Chaining Feature
 
 As you see in the above example, we login then we store the session token to a variable `userSessionToken`, the variable name can be anything as long as a one word. Following to our next scenario, as needed by our API, we set the header `SessionId` to the value of the previously stored data by sepcifying that we are getting the stored value from the variable `userSessionToken`.
 
+## JSON Schema Comparison
+It is important that contracts among consumer of the API ensure that the data expected are always correct. With this JSON Schema comparison, we can add assertion on the response data if it conforms to expected schema. We can store the schema to a file and use that as expected schema.
+
+```http
+    POST https://www.autokinjs.com/login
+    Headers:
+    Content-Type: application/json
+    {
+        "username": "juan",
+        "password": "p3dr0"
+    }
+
+    Response:
+    {
+        "sessionId": "2AA21boNhOM5zR3Xgn96qw=="
+    }
+```
+
+**Expected Login Response Schema**
+
+`feature/schema/login-response-schema.json`
+```json
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://autokinjs.com/root.json",
+  "type": "object",
+  "required": [
+    "sessionId",
+    "name"
+  ],
+  "properties": {
+    "sessionId": {
+      "$id": "#/properties/sessionId",
+      "type": "string",
+      "pattern": "^(.*)$"
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "pattern": "^(.*)$"
+    }
+  }
+}
+```
+
+```gherkin
+@schemachecks
+Feature: My Schema Check Feature
+	As Autokin tester
+	I want to verify that all API contracts are correct
+
+    Scenario: Login to the system
+        Given that a secure endpoint is up at www.autokinjs.com
+        Given I set Content-Type header to application/json
+        Given I set the JSON body to 
+        """
+        {
+            "username": "juan",
+            "password": "p3dr0"
+        }
+        """
+        When I POST /login
+        Then response status code should be 200
+        Then I keep the value of body path "$.sessionId" as "userSessionToken"
+        Then I expect response data schema complies to "./features/schema/login-response-schema.json"
+```
+Based on the result of the response, it only include `sessionId` and does not return any property `name`. In the schema, it was defined that `name` is required property of the response schema.
+
+```
+Feature: My Schema Check Feature > Login to the system
+        ✔ Passed - Given that a secure endpoint is up at www.autokinjs.com
+        ✔ Passed - Given I set Content-Type header to application/json
+        ✔ Passed - Given I set the JSON body to
+        ✔ Passed - When I POST /login
+        ✔ Passed - Then response status code should be 200
+        ✔ Passed - Then I keep the value of body path "$.sessionId" as "userSessionToken"
+        ✖ Failed - Then I expect response data schema complies to "./features/schema/login-response-schema.json"
+                 - Expected schema not match from the reponse data. Found 1 errors. [Missing required property: name]
+
+```
+
+
+
 See more [examples](docs/examples).
 
 ## Autokin Gherkin Steps
@@ -349,6 +438,7 @@ There are several steps that we can use to combine different test, expectations,
 | Then I keep the value of body path {path} as {storage name}| Store the value of the path as the specified storage name |
 | Then I keep the value of header {name} as {storage name} |  Store the value of the header as the specified storage name |
 | Then I expect that the stored value in {storage name} is {expected value}|  Assert if the stored name has the expected value |
+| Then I expect response data schema complies to {schema path} |  Assert if the response JSON body complies to JSON schema file |
 
 For complete examples, [see docs ](docs).
 

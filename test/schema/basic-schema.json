@@ -1,0 +1,44 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/root.json",
+    "type": "object",
+    "title": "The Root Schema",
+    "required": [
+        "sessionId",
+        "name",
+        "status"
+    ],
+    "properties": {
+        "sessionId": {
+            "$id": "#/properties/sessionId",
+            "type": "string",
+            "title": "The Sessionid Schema",
+            "default": "",
+            "examples": [
+                "aGVsbG8gd29ybGQgYXJpZXM="
+            ],
+            "pattern": "^(.*)$"
+        },
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "The Name Schema",
+            "default": "",
+            "examples": [
+                "Autokin"
+            ],
+            "pattern": "^(.*)$"
+        },
+        "status": {
+            "$id": "#/properties/status",
+            "type": "integer",
+            "title": "The Status Schema",
+            "default": 0,
+            "examples": [
+                200
+            ],
+            "minimum": 200.0
+        }
+    }
+}
