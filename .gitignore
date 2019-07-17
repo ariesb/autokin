@@ -62,6 +62,5 @@ typings/
 
 # others
 features
-reports
-
+reports/
 .DS_Store

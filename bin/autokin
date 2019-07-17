@@ -5,20 +5,25 @@
 // Licensed under the MIT license. See LICENSE.
 const program = require('commander');
 const path = require('path');
+const fs = require('fs');
 const package = require(path.resolve(__dirname, '../package.json'));
+
 program
     .version(package.version)
     .option('-i, --init', 'Initialised new Autokin project structure')
     .option('-e, --exec', 'Execute automation test')
     .option('-t, --tags [tags]', 'Use with --exec to specify which tags to run, example:"@autokin"')
+    .option('-j, --junit', 'Output result as JUnit format')
+    .option('-f, --formatter [cucumber-formatter]', 'Use with --exec to specify custom formatter')
     .parse(process.argv);
 
-let _getTags = () => program.tags ? program.tags : undefined;    
+let _getTags = () => program.tags ? program.tags : undefined;
+let _getFormatters = () => program.formatter ? program.formatter : undefined;    
 
 if (program.init) {
     require('./autokin-init').default();
 } else if (program.exec) {
-    require('./autokin-cli').default(_getTags());
+    require('./autokin-cli').default(program);
 } else {
     program.outputHelp();
 }
