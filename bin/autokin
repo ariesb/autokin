@@ -19,12 +19,18 @@ program
     .parse(process.argv);
 
 let _getTags = () => program.tags ? program.tags : undefined;
-let _getFormatters = () => program.formatter ? program.formatter : undefined;    
+let _getFormatters = () => program.formatter ? program.formatter : undefined;
 
 if (program.init) {
     require('./autokin-init').default();
 } else if (program.exec) {
-    require('./autokin-cli').default(program);
+    require('./autokin-cli')
+        .default(program)
+        .then((code) => {
+            process.exit(code)
+        }, () => {
+            process.exit(1);
+        });
 } else {
     program.outputHelp();
 }

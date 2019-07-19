@@ -21,10 +21,10 @@ module.exports.default = function ({tags, formatter, junit, variables}) {
     if (variables) process.env.AUTOKIN_VARS = variables;
 
     let cli = new (require('cucumber').Cli)({ argv: cliOptions, cwd: process.cwd(), stdout: process.stdout });
-    new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         try {
             return cli.run()
-                .then(success => resolve((success === true) ? 0 : 1));
+                .then(result => resolve((result.success === true) ? 0 : 1));
         } catch (e) {
             return reject(e);
         }
