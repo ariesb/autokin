@@ -15,6 +15,7 @@ program
     .option('-t, --tags [tags]', 'Use with --exec to specify which tags to run, example:"@autokin"')
     .option('-j, --junit', 'Output result as JUnit format')
     .option('-f, --formatter [cucumber-formatter]', 'Use with --exec to specify custom formatter')
+    .option('-v, --variables [file-path]', 'Use with --exec to specify variable set from json file')
     .parse(process.argv);
 
 let _getTags = () => program.tags ? program.tags : undefined;

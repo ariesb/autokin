@@ -7,7 +7,7 @@
 const path = require('path');
 const fs = require('fs');
 
-module.exports.default = function ({tags, formatter, junit}) {
+module.exports.default = function ({tags, formatter, junit, variables}) {
     let formatterPath = path.resolve(__dirname, '../lib/formatter/autokin-formatter');
 
     if (!fs.existsSync('reports')) {
@@ -18,6 +18,7 @@ module.exports.default = function ({tags, formatter, junit}) {
     if (junit) cliOptions = cliOptions.concat([`--format=node_modules/cucumber-junit-formatter:reports/junit.xml`]);
     if (formatter) cliOptions = cliOptions.concat([`--format=${formatter}`]);
     if (tags) cliOptions = cliOptions.concat(['--tags', `${tags}`]);
+    if (variables) process.env.AUTOKIN_VARS = variables;
 
     let cli = new (require('cucumber').Cli)({ argv: cliOptions, cwd: process.cwd(), stdout: process.stdout });
     new Promise(function (resolve, reject) {

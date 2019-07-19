@@ -15,7 +15,7 @@ const eventBroadcaster = new _events.default();
 const logHook = () => {
 };
 
-let eventCollectorData = require('./event-collector-default-data.json');
+let eventCollectorData = require('./mock/event-collector-default-data.json');
 let stepDataMock = {
     gherkinKeyword: 'Then',
     pickleStep: {
@@ -118,7 +118,7 @@ describe('Autokin Formatter', function () {
                 assert.strictEqual(colors.strip(data), ' - ✖ Failed\n\t\tThenexpect step - Please correct invalid Gherkin Step. \n');
             };
 
-            eventCollectorData = require('./event-collector-undefined-status.json');
+            eventCollectorData = require('./mock/event-collector-undefined-status.json');
             eventBroadcaster.emit('test-case-finished', {
                 result: {
                     status: 'undefined'
@@ -127,8 +127,8 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process : test-step-finished - failed', function () {
-            formatter.logFn = (data) => {
-                assert.strictEqual(colors.strip(data), '\t✖ Failed - Then I expected to fail \n\t\t - Failed step\n');
+            formatter.spinner._failed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Failed - Then I expected to fail\n\t - Failed step');
             };
             stepDataMock = {
                 gherkinKeyword: 'Then ',
@@ -140,8 +140,8 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process : test-step-finished - passed', function () {
-            formatter.logFn = (data) => {
-                assert.strictEqual(colors.strip(data), '\t✔ Passed - Then I expected to pass \n');
+            formatter.spinner._passed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Passed - Then I expected to pass');
             };
             stepDataMock = {
                 gherkinKeyword: 'Then ',
@@ -149,13 +149,23 @@ describe('Autokin Formatter', function () {
                     text: 'I expected to pass'
                 }
             };
+            eventBroadcaster.emit('test-step-finished', { index: 0, testCase: {}, result: {} }); 
             eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed' } });
         });
 
-        it('should be able to process : test-step-finished - not step', function () {
-            eventBroadcaster.emit('test-step-finished', { index: 0, testCase: {}, result: { status: 'failed', exception: { message: 'Failed step' } } });
+        it('should be able to process : test-step-started', function () {
+            formatter.spinner.start = () => {
+                assert.strictEqual(colors.strip(formatter.spinner.text), '\t Then I expected to pass');
+            };
+            stepDataMock = {
+                gherkinKeyword: 'Then ',
+                pickleStep: {
+                    text: 'I expected to pass'
+                }
+            };
+            eventBroadcaster.emit('test-step-started', { index: 0, testCase: {}, result: {} });
+            eventBroadcaster.emit('test-step-started', { index: 1, testCase: {}, result: { status: 'passed' } });
         });
-
 
     });
 
@@ -184,7 +194,7 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process summary', function () {
-            let data = require('./test-summary-1.json');
+            let data = require('./mock/test-summary-1.json');
             formatter.logFn = (data) => {
                 featuresSummaryTable.push(['My Feature', '100.00', 1, 1]);
                 detailsSummaryTable.push([{ colSpan: 9, content: 'My Feature' }]);
@@ -196,7 +206,7 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process summary - with empty steps', function () {
-            let data = require('./test-summary-2.json');
+            let data = require('./mock/test-summary-2.json');
             formatter.logFn = (data) => {
                 featuresSummaryTable.push(['My Feature', '---', 1, 0]);
                 detailsSummaryTable.push([{ colSpan: 9, content: 'My Feature' }]);
@@ -208,7 +218,7 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process summary - with failed step', function () {
-            let data = require('./test-summary-3.json');
+            let data = require('./mock/test-summary-3.json');
             formatter.logFn = (data) => {
                 featuresSummaryTable.push(['My Feature', '0.00', 1, 1]);
                 detailsSummaryTable.push([{ colSpan: 9, content: 'My Feature' }]);
@@ -220,7 +230,7 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process summary - with failed but less than 50%', function () {
-            let data = require('./test-summary-4.json');
+            let data = require('./mock/test-summary-4.json');
             formatter.logFn = (data) => {
                 featuresSummaryTable.push(['My Feature', '75.00', 4, 4]);
                 detailsSummaryTable.push([{ colSpan: 9, content: 'My Feature' }]);
@@ -235,7 +245,7 @@ describe('Autokin Formatter', function () {
         });
 
         it('should be able to process summary - with invalid step', function () {
-            let data = require('./test-summary-5.json');
+            let data = require('./mock/test-summary-5.json');
             formatter.logFn = (data) => {
                 featuresSummaryTable.push(['HTTP Bin REST Service', 33.33, 1, 3]);
                 detailsSummaryTable.push([{ colSpan: 9, content: 'HTTP Bin REST Service' }]);

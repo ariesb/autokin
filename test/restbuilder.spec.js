@@ -1,7 +1,10 @@
 const assert = require('assert');
 const { RestBuilder, Response } = require('../lib/autokin-restbuilder');
+const { Store } = require('../lib/autokin');
 const Utils = require('../lib/utilities');
 const nock = require('nock');
+const sinon = require('sinon');
+const path = require('path');
 
 let Builder = null;
 describe('Rest Builder', function () {
@@ -71,13 +74,13 @@ describe('Rest Builder', function () {
     describe('Builder', function () {        
         it('should be able to store value and resolve value', function () {
             Builder.keep('myKey', 'myValue');
-            assert.strictEqual(Builder.resolve('myKey'), 'myValue');
+            assert.strictEqual(Store.resolve('myKey'), 'myValue');
         });
 
         it('should be able to reset the request but not the storage', function () {
             Builder.keep('myKey', 'myValue');
             Builder.reset();
-            assert.strictEqual(Builder.resolve('myKey'), 'myValue');
+            assert.strictEqual(Store.resolve('myKey'), 'myValue');
             assert.strictEqual(Builder.resp, null);
             assert.deepStrictEqual(Builder.reqbody, {});
         });
@@ -106,7 +109,7 @@ describe('Rest Builder', function () {
 
         it('should be able to set request body', function () {
             Builder.body('{"data": 0}');
-            assert.strictEqual(Builder.reqbody.body, '{"data": 0}');
+            assert.strictEqual(Builder.reqbody.body, '{"data":0}');
         });
 
         it('should be able to set request basic authentication', function () {
@@ -229,5 +232,40 @@ describe('Rest Builder', function () {
             assert.strictEqual(result.length, 1);
             assert.strictEqual(result[0].path, '/status');
         });
+
+        it('should be able to report unknown file schema', function () {
+            const dataResponse = {
+                sessionId: 'aGVsbG8gd29ybGQgYXJpZXM=',
+                name: 'Autokin',
+                status: 0
+            };
+            Builder.resp = new Response({ body: JSON.stringify(dataResponse) });
+            try {
+                Utils.expectAsSchema(Builder.Response().Body().asJSON(), './ztest/schema/basic-schema.json');
+            } catch(error) {
+                const invalidPath = path.resolve(process.cwd(), './ztest/schema/basic-schema.json');
+                assert.strictEqual(error.message, `Cannot find schema '${invalidPath}'`);
+            }
+        });
+    });
+});
+
+describe('Rest Builder with Process Environment', function () {
+    it('should be able to report missing variable file', function () {
+        process.env.AUTOKIN_VARS = './unknow_file.json';
+        Store._merge = Store.merge;
+        Store.merge = sinon.spy();
+        Builder = new RestBuilder();
+        sinon.assert.notCalled(Store.merge);
+        Store.merge = Store._merge;
+    });
+
+    it('should be able to load and merge variable file', function () {
+        process.env.AUTOKIN_VARS = './test/mock/autokin_vars_env.json';
+        Store._merge = Store.merge;
+        Store.merge = sinon.spy();
+        Builder = new RestBuilder();
+        sinon.assert.calledOnce(Store.merge);
+        Store.merge = Store._merge;
     });
 });

@@ -8,6 +8,7 @@ All you need to know is Gherkin and you can start working and creating automated
 
 ## What's New
 * Ability to test response JSON Data against JSON Schema (https://json-schema.org/). See example.
+* Allow pre-define variable set that can be loaded use within features
 * Ability to test response execution time
 * New Console Log Outputs
 
@@ -383,6 +384,46 @@ Feature: My Schema Check Feature > Login to the system
         ✖ Failed - Then I expect response data schema complies to "./features/schema/login-response-schema.json"
                  - Expected schema not match from the reponse data. Found 1 errors. [Missing required property: name]
 
+```
+
+## Pre-define Variable Set
+Iin most case we do not want to hard code values in our test and we want to control the value based on certain environment to run it. You can specify pre-defined variable set using a JSON file.
+
+**Pre-defined Staging Environment Variables**
+```features/data/uat.variables.json```
+```json
+{
+  "host": "www.uat.autokinjs.com",
+  "username": "autokin"
+}
+```
+
+For example above is our variable set, and we have 2 key-value that we can use within our test. Using the above anticipated variables, the following can be our test:
+```gherkin
+Feature: My Feature
+	As Autokin tester
+	I want to verify that all API are working as they should
+
+    Scenario: Login to the system
+        Given that a secure endpoint is up at {host}
+        Given I set Content-Type header to application/json
+        Given I set the JSON body to 
+        """
+        {
+            "username": "{username}",
+            "password": "p3dr0"
+        }
+        """
+        When I POST /login
+        Then response status code should be 200
+        Then I keep the value of body path "$.sessionId" as "userSessionToken"
+```
+
+In the above example, we can use the variable by using curly braces to enclose our variable name, such as ``{host}``. In the example above, we used the variable as our source for the ``host``, and we also used another variable in the ``username`` as part of the body.
+
+**Specifying pre-define variable in runtime**
+```bash
+./node_modules/.bin/autokin -e -v ./features/data/uat.variables.json
 ```
 
 
