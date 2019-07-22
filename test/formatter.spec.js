@@ -153,6 +153,22 @@ describe('Autokin Formatter', function () {
             eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed' } });
         });
 
+        it('should be able to process : test-step-finished with duration - passed', function () {
+            formatter.spinner._passed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Passed - Then I expected to pass (100ms)');
+            };
+            stepDataMock = {
+                gherkinKeyword: 'Then ',
+                pickleStep: {
+                    text: 'I expected to pass'
+                }
+            };
+
+            process.env.AUTOKIN_TIME = 'true';
+            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed', duration: 100 } });
+        });
+
+
         it('should be able to process : test-step-started', function () {
             formatter.spinner.start = () => {
                 assert.strictEqual(colors.strip(formatter.spinner.text), '\t Then I expected to pass');
