@@ -133,7 +133,8 @@ describe('Autokin Formatter', function () {
             stepDataMock = {
                 gherkinKeyword: 'Then ',
                 pickleStep: {
-                    text: 'I expected to fail'
+                    text: 'I expected to fail',
+                    arguments: []
                 }
             };
             eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'failed', exception: { message: 'Failed step'} } });
@@ -146,7 +147,8 @@ describe('Autokin Formatter', function () {
             stepDataMock = {
                 gherkinKeyword: 'Then ',
                 pickleStep: {
-                    text: 'I expected to pass'
+                    text: 'I expected to pass',
+                    arguments: []
                 }
             };
             eventBroadcaster.emit('test-step-finished', { index: 0, testCase: {}, result: {} }); 
@@ -160,7 +162,31 @@ describe('Autokin Formatter', function () {
             stepDataMock = {
                 gherkinKeyword: 'Then ',
                 pickleStep: {
-                    text: 'I expected to pass'
+                    text: 'I expected to pass',
+                    arguments: []
+                }
+            };
+
+            process.env.AUTOKIN_TIME = 'true';
+            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed', duration: 100 } });
+        });
+
+        it('should be able to process : test-step-finished with content - passed', function () {
+            formatter.spinner._passed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Passed - Then I expected to pass (100ms)');
+            };
+
+            formatter.logFn = (data) => {
+                assert.strictEqual(colors.strip(data), '\t{\n\t    "username": "hello"\n\t}\n');
+            };
+
+            stepDataMock = {
+                gherkinKeyword: 'Then ',
+                pickleStep: {
+                    text: 'I expected to pass',
+                    arguments: [{
+                        content: '{"username": "hello"}'
+                    }]
                 }
             };
 
