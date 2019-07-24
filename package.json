@@ -17,6 +17,8 @@
     "gherkin",
     "REST",
     "API",
+    "rest-api",
+    "rest-client",
     "testing",
     "automation"
   ],

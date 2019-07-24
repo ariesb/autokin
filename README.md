@@ -2,9 +2,21 @@
 
 # Autokin (Automation by Gherkin)
 
-This is a simple package/library that helps tester to do automation of REST/API using Gherkin without knowing JavaScript coding. 
+This is a simple package/library that helps tester to do automation of REST/API using Gherkin without knowing JavaScript coding. All you need to know is Gherkin and you can start working and creating automated test for contract testing, or simple API test.
 
-All you need to know is Gherkin and you can start working and creating automated test for contract testing, or simple API test.
+One of the simplest item that we do not want to missed is to break contract of front end apps to our service apps. To make sure that we can detect this easy and early on we want the following:
+
+:thumbsup: Validate each endpoints response schema.  
+:thumbsup: Validate possible response data.  
+:thumbsup: Validate data fetch with authentications.  
+:thumbsup: Enable chanining of multiple endpoint calls.  
+:thumbsup: Validate HTTP status code and header data.  
+:thumbsup: Ability to drive test using data.  
+:thumbsup: Easy to write and not too technical.  
+:thumbsup: Easy to integrate with CI/CD environment.  
+:thumbsup: Supported with generated test reports.  
+
+If these are something you need then Autokin can help you on that. Explore!
 
 ## What's New
 * Ability to test response JSON Data against JSON Schema (https://json-schema.org/). See example.
