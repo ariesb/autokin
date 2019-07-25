@@ -12,6 +12,7 @@ One of the simplest item that we do not want to missed is to break contract of f
 :thumbsup: Enable chanining of multiple endpoint calls.  
 :thumbsup: Validate HTTP status code and header data.  
 :thumbsup: Ability to drive test using data.  
+:thumbsup: Supports data generation for inputs.  
 :thumbsup: Easy to write and not too technical.  
 :thumbsup: Easy to integrate with CI/CD environment.  
 :thumbsup: Supported with generated test reports.  
@@ -21,6 +22,7 @@ If these are something you need then Autokin can help you on that. Explore!
 ## What's New
 * Ability to test response JSON Data against JSON Schema (https://json-schema.org/). See example.
 * Allow pre-define variable set that can be loaded use within features
+* **Autokin Generators**: Ability to generate data randomly or based on certain list
 * Ability to test response execution time
 * New Console Log Outputs
 
@@ -437,8 +439,67 @@ In the above example, we can use the variable by using curly braces to enclose o
 ```bash
 ./node_modules/.bin/autokin -e -v ./features/data/uat.variables.json
 ```
+  
+## Autokin Generators
+In some cases we want to include auto generated data as part of the API request, some of these are emails, ids, names, and maybe passwords. With Autokin Generators, this can be done as well with minimal syntax to understand.
 
+**Generate Email Addresses**
+```gherkin
+    Scenario: Login to the system
+        Given that a secure endpoint is up at {host}
+        Given I set Content-Type header to application/json
+        Given I set the JSON body to 
+        """
+        {
+            "username": "{generate:email(gmail.com)}",
+            "password": "p3dr0"
+        }
+        """
+        When I POST /login
+```
 
+**Generate Passwords**
+```gherkin
+    Scenario: Login to the system
+        Given that a secure endpoint is up at {host}
+        Given I set Content-Type header to application/json
+        Given I set the JSON body to 
+        """
+        {
+            "username": "me@gmail.com",
+            "password": "{generate:any(8,numbers,uppercase,lowercase)}"
+        }
+        """
+        When I POST /login
+```
+This will generate password with length of 8 characters that can be either `numbers`, `uppercase` letters, or `lowercase` letters. If you want `symbols` just add it from the list.
+
+**Generate Names**
+```gherkin
+    Scenario: Create Customer to the system
+        Given that a secure endpoint is up at {host}
+        Given I set Content-Type header to application/json
+        Given I set the JSON body to 
+        """
+        {
+            "username": "{generate:emails(gmail.com)}",
+            "password": "{generate:any(8,numbers,uppercase,lowercase)}",
+            "firstname": "{generate:firstname(male)}",
+            "lastname": "{generate:lastname}"
+        }
+        """
+        When I POST /create
+```
+### Autokin Generators
+| Generator  | Description  |
+|---|---|
+| `{generate:email(domain)}`    | Generate random emails, with specified domain name. If not supplied it will have `autokinjs.com` as email domain.   |
+| `{generate:firstname()}`    | Generate firstname base on existing name list, it can be either male or female.    |
+| `{generate:firstname(male)}`    | Generate male firstname.    |
+| `{generate:firstname(female)}`    | Generate female firstname.    |
+| `{generate:lastname}`    | Generate lastname base on existing list.    |
+| `{generate:uuid}`    | Generate UUID v4.    |
+| `{generate:any(length, ...options )}`    | Generate random characters based on length and options. <br /><br />Options can be `numbers`, `lowercase`, `uppercase`, or `symbols`.  <br /><br />To generate only symbols: `{generate:any(10,symbols)}`. <br /><br />If you want both `numbers` and `symbols`: `{generate:any(10,numbers,symbols)}`    |
 
 See more [examples](docs/examples).
 
