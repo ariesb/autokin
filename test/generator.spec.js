@@ -90,10 +90,8 @@ describe('Autokin Generators', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.5);
             assert.strictEqual(generators.any(3, {
-                letters: {
-                    small: true,
-                    caps: true
-                }
+                lowercase: true,
+                uppercase: true
             }), 'AAA');
             randomStub.restore();
         });
@@ -102,10 +100,8 @@ describe('Autokin Generators', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.723);
             assert.strictEqual(generators.any(3, {
-                letters: {
-                    small: true,
-                    caps: false
-                },
+                lowercase: true,
+                uppercase: false,
                 numbers: true
             }), '111');
             randomStub.restore();
@@ -115,10 +111,8 @@ describe('Autokin Generators', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.531);
             assert.strictEqual(generators.any(3, {
-                letters: {
-                    small: true,
-                    caps: false
-                },
+                lowercase: true,
+                uppercase: false,
                 numbers: false,
                 symbols: true
             }), '!!!');
@@ -129,10 +123,8 @@ describe('Autokin Generators', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.00001);
             assert.strictEqual(generators.any(3, {
-                letters: {
-                    small: false,
-                    caps: false
-                },
+                lowercase: false,
+                uppercase: false,
                 numbers: true,
                 symbols: false
             }), '111');

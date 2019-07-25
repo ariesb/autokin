@@ -92,4 +92,28 @@ describe('Autokin Store', function () {
         }
     });
 
+    it('should be able to perform any generation with arguments', function () {
+        let randomStub = sinon.stub(Math, 'random');
+        randomStub.returns(0.00001);
+        let pickle = Store.interpolateValues('Hello {generate:any(3,numbers)}', Store.storage);
+        assert.strictEqual(pickle, 'Hello 111');
+        randomStub.restore();
+    });
+
+    it('should be able to perform any generation with multiple arguments', function () {
+        let randomStub = sinon.stub(Math, 'random');
+        randomStub.returns(0.00001);
+        let pickle = Store.interpolateValues('Hello {generate:any(3,numbers,lowercase)}', Store.storage);
+        assert.strictEqual(pickle, 'Hello aaa');
+        randomStub.restore();
+    });
+
+    it('should be able to perform UUID generation', function () {
+        let randomStub = sinon.stub(Math, 'random');
+        randomStub.returns(0.001);
+        let pickle = Store.interpolateValues('Hello {generate:uuid}', Store.storage);
+        assert.strictEqual(pickle, 'Hello 10000000-1000-4000-8000-100000000000');
+        randomStub.restore();
+    });
+
 });
