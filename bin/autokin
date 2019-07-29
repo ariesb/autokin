@@ -14,7 +14,7 @@ program
     .option('-e, --exec', 'Execute automation test')
     .option('-t, --tags [tags]', 'Use with --exec to specify which tags to run, example:"@autokin"')
     .option('-j, --junit', 'Output result as JUnit format')
-    .option('-t, --time', 'Display duration execution for each steps')
+    .option('-d, --time', 'Display duration execution for each steps')
     .option('-f, --formatter [cucumber-formatter]', 'Use with --exec to specify custom formatter')
     .option('-v, --variables [file-path]', 'Use with --exec to specify variable set from json file')
     .parse(process.argv);
