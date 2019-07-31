@@ -17,6 +17,7 @@ program
     .option('-d, --time', 'Display duration execution for each steps')
     .option('-f, --formatter [cucumber-formatter]', 'Use with --exec to specify custom formatter')
     .option('-v, --variables [file-path]', 'Use with --exec to specify variable set from json file')
+    .option('-w, --html [file-path]', 'Generate test result in html file')
     .parse(process.argv);
 
 let _getTags = () => program.tags ? program.tags : undefined;

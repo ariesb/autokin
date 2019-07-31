@@ -33,6 +33,7 @@
     "url": "https://github.com/ariesb/autokin/issues"
   },
   "dependencies": {
+    "autokin-html-formatter": "^0.1.0",
     "chai": "^4.2.0",
     "cli-table3": "^0.5.1",
     "commander": "^2.19.0",
