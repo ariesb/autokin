@@ -1,5 +1,7 @@
+const fs = require('fs');
 const assert = require('assert');
 const AutokinFormatter = require('../lib/formatter/autokin-formatter');
+const { Store } = require('../lib/autokin');
 const colors = require('colors');
 const Table = require('cli-table3');
 
@@ -137,7 +139,53 @@ describe('Autokin Formatter', function () {
                     arguments: []
                 }
             };
-            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'failed', exception: { message: 'Failed step'} } });
+            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'failed', exception: { message: 'Failed step' } } });
+        });
+
+        it('should be able to process : test-step-finished - failed schema', function () {
+            formatter.spinner._failed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Failed - Then I expected to fail\n\n\treports/snapshots/1-aaa-bbb-ccc.json line:4\n\tInvalid error message at /sub/id based on /sub/id/type\n\t  3\t    "sub": {\n\t  4\t        "name": "my-name",\n\t  5\t        "id": 90');
+            };
+            Store.set('__response-1-aaa-bbb-ccc', JSON.parse(fs.readFileSync('./test/mock/sample-data.json')));
+            let schemaErrors = [{
+                source: '1-aaa-bbb-ccc',
+                lineNumber: 4,
+                dataPath: '/sub/id',
+                message: 'Invalid error message',
+                schemaPath: '/sub/id/type'
+            }];
+
+            let result = { status: 'failed', exception: { message: JSON.stringify(schemaErrors) } };
+            stepDataMock = {
+                gherkinKeyword: 'Then ',
+                pickleStep: {
+                    text: 'I expected to fail',
+                    arguments: []
+                }
+            };
+            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result });
+        });
+
+        it('should be able to process : test-step-finished - failed schema - missing property', function () {
+            formatter.spinner._failed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Failed - Then I expected to fail\n\n\treports/snapshots/1-aaa-bbb-ccc.json \n\tInvalid error message based on /advance/type');
+            };
+            Store.set('__response-1-aaa-bbb-ccc', JSON.parse(fs.readFileSync('./test/mock/sample-data.json')));
+            let schemaErrors = [{
+                source: '1-aaa-bbb-ccc',
+                message: 'Invalid error message',
+                schemaPath: '/advance/type'
+            }];
+
+            let result = { status: 'failed', exception: { message: JSON.stringify(schemaErrors) } };
+            stepDataMock = {
+                gherkinKeyword: 'Then ',
+                pickleStep: {
+                    text: 'I expected to fail',
+                    arguments: []
+                }
+            };
+            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result });
         });
 
         it('should be able to process : test-step-finished - passed', function () {
@@ -151,7 +199,7 @@ describe('Autokin Formatter', function () {
                     arguments: []
                 }
             };
-            eventBroadcaster.emit('test-step-finished', { index: 0, testCase: {}, result: {} }); 
+            eventBroadcaster.emit('test-step-finished', { index: 0, testCase: {}, result: {} });
             eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed' } });
         });
 

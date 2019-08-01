@@ -230,7 +230,7 @@ describe('Rest Builder', function () {
             Builder.resp = new Response({ body: JSON.stringify(dataResponse) });
             const result = Utils.expectAsSchema(Builder.Response().Body().asJSON(), './test/schema/basic-schema.json');
             assert.strictEqual(result.length, 1);
-            assert.strictEqual(result[0].path, '/status');
+            assert.strictEqual(result[0].dataPath, '/status');
         });
 
         it('should be able to report unknown file schema', function () {

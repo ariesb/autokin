@@ -20,7 +20,7 @@ One of the simplest item that we do not want to missed is to break contract of f
 If these are something you need then Autokin can help you on that. Explore!
 
 ## What's New
-* Ability to test response JSON Data against JSON Schema (https://json-schema.org/). See example.
+* Ability to test response JSON Data against JSON Schema (https://json-schema.org/). [See example](#json-schema-comparison).
 * Allow pre-define variable set that can be loaded use within features
 * **Autokin Generators**: Ability to generate data randomly or based on certain list
 * Ability to test response execution time
@@ -95,6 +95,20 @@ Test Result Summary
 │      My First Scenario │ ---    │     0 │      0 │      0 │       0 │       0 │         0 │       0 │
 └────────────────────────┴────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
+## Runtime Options
+| Options                          | Shortkey | Description                                                           |
+|----------------------------------|----------|-----------------------------------------------------------------------|
+| `--version`                        | `-V`       | Display version number                                                |
+| `--init`                           | `-i`       | Initialised new Autokin project structure                             |
+| `--exec`                           | `-e`       | Execute automation test                                               |
+| `--tags [tags]`                   | `-t`       | Use with --exec to specify which tags to run, example:"@autokin"      |
+| `--junit`                          | `-j`       | Output additional result file in JUnit format                         |
+| `--time`                           | `-d`       | Display duration execution for each steps                             |
+| `--formatter [cucumber-formatter]` | `-f`       | Use with --exec to specify custom cucumber formatter                  |
+| `--variable [file-path]`           | `-v`       | Use with --exec to specify variable set from json file                |
+| `--html [file-path]`               | `-w`       | Generate test result in html file format using Autokin HTML Formatter |
+| `--help`                           | `-h`       | Output usage in console                                               |
+
 
 ## Creating your first REST Gherkin
 
@@ -322,83 +336,101 @@ As you see in the above example, we login then we store the session token to a v
 It is important that contracts among consumer of the API ensure that the data expected are always correct. With this JSON Schema comparison, we can add assertion on the response data if it conforms to expected schema. We can store the schema to a file and use that as expected schema.
 
 ```http
-    POST https://www.autokinjs.com/login
-    Headers:
-    Content-Type: application/json
-    {
-        "username": "juan",
-        "password": "p3dr0"
-    }
+    GET https://reqres.in/api/users?page=2
 
     Response:
     {
-        "sessionId": "2AA21boNhOM5zR3Xgn96qw=="
-    }
+    "page": 2,
+    "per_page": 3,
+    "total": 12,
+    "total_pages": 4,
+    "data": [
+        {
+            "id": 4,
+            "email": "eve.holt@reqres.in",
+            "first_name": "Eve",
+            "last_name": "Holt",
+            "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg"
+        },
+        {
+            "id": 5,
+            "email": "charles.morris@reqres.in",
+            "first_name": "Charles",
+            "last_name": "Morris",
+            "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg"
+        },
+        {
+            "id": 6,
+            "email": "tracey.ramos@reqres.in",
+            "first_name": "Tracey",
+            "last_name": "Ramos",
+            "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg"
+        }
+    ]
+}
 ```
 
 **Expected Login Response Schema**
 
-`feature/schema/login-response-schema.json`
+`feature/schema/reqres-response-schema.json`
 ```json
 {
-  "definitions": {},
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://autokinjs.com/root.json",
-  "type": "object",
-  "required": [
-    "sessionId",
-    "name"
-  ],
-  "properties": {
-    "sessionId": {
-      "$id": "#/properties/sessionId",
-      "type": "string",
-      "pattern": "^(.*)$"
-    },
-    "name": {
-      "$id": "#/properties/name",
-      "type": "string",
-      "pattern": "^(.*)$"
-    }
-  }
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/root.json",
+    "type": "object",
+    "title": "The Root Schema",
+    "required": [
+        "page",
+        "max_page",
+        "per_page",
+        "total",
+        "total_pages",
+        "data"
+    ],
+    ....
+               "items": {
+                "$id": "#/properties/data/items",
+                "type": "object",
+                "title": "The Items Schema",
+                "required": [
+                    "id",
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "avatar"
+                ],
+                "properties": {
+                    "id": {
+                        "$id": "#/properties/data/items/properties/id",
+                        "type": "string",
+                        "default": 0,
+                        "pattern": "^(.*)$"
+                    },
+                    "email": {
+    ...
 }
 ```
 
+In the above Schema, it expects that `max_page` should be required and must be with the response, however the example of our response does not contain it, so we expect that this will be reported on our test. Aside from that, in the schema it also described that `id` in the `items` are `string` but we will be receiving `number` instead hence this should also be reported. 
+
 ```gherkin
 @schemachecks
-Feature: My Schema Check Feature
+Feature: Bad Schema Feature Example
 	As Autokin tester
 	I want to verify that all API contracts are correct
 
-    Scenario: Login to the system
-        Given that a secure endpoint is up at www.autokinjs.com
+    Scenario: Perform check on bad schema
+        Given that a secure endpoint is up at reqres.in
         Given I set Content-Type header to application/json
-        Given I set the JSON body to 
-        """
-        {
-            "username": "juan",
-            "password": "p3dr0"
-        }
-        """
-        When I POST /login
+        When I GET /api/users?page=2
         Then response status code should be 200
-        Then I keep the value of body path "$.sessionId" as "userSessionToken"
-        Then I expect response data schema complies to "./features/schema/login-response-schema.json"
-```
-Based on the result of the response, it only include `sessionId` and does not return any property `name`. In the schema, it was defined that `name` is required property of the response schema.
+        Then I expect response data schema complies to "{schemaBasePath}/resreq-users-schema.json"
 
 ```
-Feature: My Schema Check Feature > Login to the system
-        ✔ Passed - Given that a secure endpoint is up at www.autokinjs.com
-        ✔ Passed - Given I set Content-Type header to application/json
-        ✔ Passed - Given I set the JSON body to
-        ✔ Passed - When I POST /login
-        ✔ Passed - Then response status code should be 200
-        ✔ Passed - Then I keep the value of body path "$.sessionId" as "userSessionToken"
-        ✖ Failed - Then I expect response data schema complies to "./features/schema/login-response-schema.json"
-                 - Expected schema not match from the reponse data. Found 1 errors. [Missing required property: name]
+The last line of our test is a check for Schema compliance. Here Autokin will validate if the response does conforms with our expected schema, if not it should report all errors. Below is an example, where exact error will be presented along with the line numbers if available, so that it will be easier for us to debug and identify the problem.
 
-```
+![Bad Schema - JSON Line Details](docs/images/bad_schema.png)
 
 ## Pre-define Variable Set
 Iin most case we do not want to hard code values in our test and we want to control the value based on certain environment to run it. You can specify pre-defined variable set using a JSON file.

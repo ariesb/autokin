@@ -11,8 +11,10 @@ module.exports.default = function ({ tags, formatter, junit, variables, time, ht
     let formatterPath = path.resolve(__dirname, '../lib/formatter/autokin-formatter');
     let htmlFormatterPath = path.resolve(__dirname, '../lib/formatter/autokin-html-formatter');
 
-    if (!fs.existsSync('reports')) {
-        fs.mkdirSync('reports');
+    if (!fs.existsSync('reports/snapshots')) {
+        fs.mkdirSync('reports/snapshots', { recursive: true });
+    } else {
+
     }
 
     let cliOptions = ['', '', '--format=json:reports/autokin-report.json', '--format=' + formatterPath];

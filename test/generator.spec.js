@@ -1,5 +1,4 @@
 const assert = require('assert');
-// const Utils = require('../lib/utilities');
 const generators = require('../lib/utilities/generators');
 const sinon = require('sinon');
 
