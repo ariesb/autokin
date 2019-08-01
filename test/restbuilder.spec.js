@@ -5,12 +5,16 @@ const Utils = require('../lib/utilities');
 const nock = require('nock');
 const sinon = require('sinon');
 const path = require('path');
+const fs = require('fs');
 
 let Builder = null;
 describe('Rest Builder', function () {
 
     before(function() {
         Builder = new RestBuilder();
+        if (!fs.existsSync('reports/snapshots')) {
+            fs.mkdirSync('reports/snapshots', { recursive: true });
+        }
     });
 
     describe('Body', function () {        
