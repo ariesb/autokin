@@ -18,10 +18,26 @@ program
     .option('-f, --formatter [cucumber-formatter]', 'Use with --exec to specify custom formatter')
     .option('-v, --variables [file-path]', 'Use with --exec to specify variable set from json file')
     .option('-w, --html [file-path]', 'Generate test result in html file')
+    .option('-c, --clean', 'Deletes existing reports and snapshots before running new test.')
     .parse(process.argv);
 
 let _getTags = () => program.tags ? program.tags : undefined;
 let _getFormatters = () => program.formatter ? program.formatter : undefined;
+let clean = (folder) => {
+    if (fs.existsSync(folder)) {
+        fs.readdirSync(folder).forEach(function (item) {
+            const file = path.join(folder, item);
+            if (fs.lstatSync(file).isDirectory()) {
+                clean(file);
+            } else {
+                fs.unlinkSync(file);
+            }
+        });
+        fs.rmdirSync(folder);
+    }
+};
+
+if(program.clean) clean('reports');
 
 if (program.init) {
     require('./autokin-init').default();

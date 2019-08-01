@@ -96,18 +96,19 @@ Test Result Summary
 └────────────────────────┴────────┴───────┴────────┴────────┴─────────┴─────────┴───────────┴─────────┘
 ```
 ## Runtime Options
-| Options                          | Shortkey | Description                                                           |
-|----------------------------------|----------|-----------------------------------------------------------------------|
+| Options                            | Shortkey   | Description                                                           |
+|------------------------------------|------------|-----------------------------------------------------------------------|
 | `--version`                        | `-V`       | Display version number                                                |
 | `--init`                           | `-i`       | Initialised new Autokin project structure                             |
 | `--exec`                           | `-e`       | Execute automation test                                               |
-| `--tags [tags]`                   | `-t`       | Use with --exec to specify which tags to run, example:"@autokin"      |
+| `--tags [tags]`                    | `-t`       | Use with --exec to specify which tags to run, example:"@autokin"      |
 | `--junit`                          | `-j`       | Output additional result file in JUnit format                         |
 | `--time`                           | `-d`       | Display duration execution for each steps                             |
 | `--formatter [cucumber-formatter]` | `-f`       | Use with --exec to specify custom cucumber formatter                  |
 | `--variable [file-path]`           | `-v`       | Use with --exec to specify variable set from json file                |
 | `--html [file-path]`               | `-w`       | Generate test result in html file format using Autokin HTML Formatter |
 | `--help`                           | `-h`       | Output usage in console                                               |
+| `--clean`                          | `-c`       | Deletes existing reports and snapshots before running new test.       |
 
 
 ## Creating your first REST Gherkin
