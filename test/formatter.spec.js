@@ -1,9 +1,10 @@
 const fs = require('fs');
 const assert = require('assert');
 const AutokinFormatter = require('../lib/formatter/autokin-formatter');
-const { Store } = require('../lib/autokin');
+const { Store, Measure } = require('../lib/autokin');
 const colors = require('colors');
 const Table = require('cli-table3');
+const sinon = require('sinon');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var _events = _interopRequireDefault(require('events'));
@@ -74,24 +75,25 @@ describe('Autokin Formatter', function () {
             eventBroadcaster.emit('test-run-started');
         });
 
-        it('should be able to process : test-run-finished', function () {
-            formatter.logFn = (data) => {
-                let table1 = new Table({
-                    head: ['Features', 'Result %', 'Scenarios', 'Steps'],
-                    colAligns: [null, 'right', 'right', 'right'],
-                    style: {
-                        head: [], border: []
+        it('should be able to process : test-run-finished', function (done) {
+            formatter.logFn = sinon.fake();
+            eventBroadcaster.on('test-run-finished', () => {
+                assert.strictEqual(formatter.logFn.callCount, 2);
+                done();
+            });
+
+            Measure.add({
+                statusCode: 200,
+                request: {
+                    uri: {
+                        host: 'autokin.js',
+                        pathname: '/session'
                     }
-                });
-                let table2 = new Table({
-                    head: ['Features / Scenarios', 'Result', 'Steps', 'Passed', 'Failed', 'Skipped', 'Pending', 'Ambiguous', 'Unknown'],
-                    colAligns: [null, null, 'right', 'right', 'right', 'right', 'right', 'right', 'right'],
-                    style: {
-                        head: [], border: []
-                    }
-                });
-                assert.strictEqual(colors.strip(data), `\nTest Result Summary\n${table1.toString()} \n\n${table2.toString()} \n`);
-            };
+                },
+                timingPhases: {
+                    total: 1.0
+                }
+            });
             eventBroadcaster.emit('test-run-finished');
         });
 
