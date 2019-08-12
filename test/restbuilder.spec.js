@@ -42,6 +42,10 @@ describe('Rest Builder', function () {
         it('should be able to get value based on JSON path', function () {
             assert.strictEqual(Builder.Response().Body().pathValue('$.data'), 0);
         });
+
+        it('should be able to get value as text', function () {
+            assert.strictEqual(Builder.Response().Body().asText(), '{ "data": 0 }');
+        });
     });
 
     describe('Response', function () {        
@@ -174,6 +178,32 @@ describe('Rest Builder', function () {
             let b64 = Buffer.from('username:password').toString('base64');
             assert.strictEqual(requestObject.headers['Authorization'], 'Basic ' + b64);
         });
+
+        it('should be able to build a form request', function () {
+            Builder.reset();
+            Builder.host('domain.com', false);
+            Builder.form('name', 'value', 'form');
+            Builder.form('name1', 'value1', 'form');
+            let requestObject = Builder.build('/sample/uri', 'POST');
+
+            assert.strictEqual(requestObject.method, 'POST');
+            assert.strictEqual(requestObject.form['name'], 'value');
+            assert.strictEqual(requestObject.form['name1'], 'value1');
+        });
+
+        it('should be able to build a formData request', function () {
+            Builder.reset();
+            Builder.host('domain.com', false);
+            Builder.form('name', 'value', 'formData');
+            Builder.form('name1', 'value1', 'formData');
+            Builder.followRedirection(true);
+            let requestObject = Builder.build('/sample/uri', 'POST');
+
+            assert.strictEqual(requestObject.method, 'POST');
+            assert.strictEqual(requestObject.formData['name'], 'value');
+            assert.strictEqual(requestObject.formData['name1'], 'value1');
+            assert.strictEqual(requestObject.followRedirect, true);
+        });
     });
 
     describe('Builder - Mocked Request', function () {     
@@ -210,6 +240,18 @@ describe('Rest Builder', function () {
             Builder.host('domainx.com');
             Builder.process('/sample/uri', function () {
             });
+        });
+
+        it('should be able to GET a request with HTML body', function () {
+            nock('https://domain.com')
+                .get('/sample/uri')
+                .reply(200, '<html></html>');
+
+            Builder.reset();
+            Builder.host('domain.com');
+            Builder.process('/sample/uri', function () {
+                assert.strictEqual(Builder.Response().Body().isJSON(), false);
+            }, 'GET');
         });
     });
 

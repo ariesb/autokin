@@ -205,6 +205,79 @@ describe('Autokin Formatter', function () {
             eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed' } });
         });
 
+        it('should be able to process : test-step-finished - passed with form', function () {
+            formatter.spinner._passed = (message) => {
+                assert.strictEqual(colors.strip(message), ' Passed - Then I expected to pass');
+            };
+            stepDataMock = {
+                gherkinKeyword: 'Then ',
+                pickleStep: {
+                    text: 'I expected to pass',
+                    arguments: [{
+                        'rows': [
+                            {
+                                'cells': [
+                                    {
+                                        'location': {
+                                            'line': 190,
+                                            'column': 15
+                                        },
+                                        'value': 'name'
+                                    },
+                                    {
+                                        'location': {
+                                            'line': 190,
+                                            'column': 24
+                                        },
+                                        'value': 'value'
+                                    }
+                                ]
+                            },
+                            {
+                                'cells': [
+                                    {
+                                        'location': {
+                                            'line': 191,
+                                            'column': 15
+                                        },
+                                        'value': 'name1'
+                                    },
+                                    {
+                                        'location': {
+                                            'line': 191,
+                                            'column': 24
+                                        },
+                                        'value': 'value1'
+                                    }
+                                ]
+                            },
+                            {
+                                'cells': [
+                                    {
+                                        'location': {
+                                            'line': 192,
+                                            'column': 15
+                                        },
+                                        'value': 'name2'
+                                    },
+                                    {
+                                        'location': {
+                                            'line': 192,
+                                            'column': 24
+                                        },
+                                        'value': 'value2'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                    ]
+                }
+            };
+            eventBroadcaster.emit('test-step-finished', { index: 0, testCase: {}, result: {} });
+            eventBroadcaster.emit('test-step-finished', { index: 1, testCase: {}, result: { status: 'passed' } });
+        });
+
         it('should be able to process : test-step-finished with duration - passed', function () {
             formatter.spinner._passed = (message) => {
                 assert.strictEqual(colors.strip(message), ' Passed - Then I expected to pass (100ms)');

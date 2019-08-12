@@ -79,7 +79,7 @@ describe('Autokin Store', function () {
     });
 
     it('should be able to perform generate not from cache', function () {
-        let pickle = Store.generate('Hello {generate:unknown}');
+        let pickle = Store.interpolateValues('Hello {generate:unknown}', Store.storage);
         assert.strictEqual(pickle, 'Hello {generate:unknown}');
     });
 
@@ -113,7 +113,34 @@ describe('Autokin Store', function () {
         randomStub.returns(0.001);
         let pickle = Store.interpolateValues('Hello {generate:uuid}', Store.storage);
         assert.strictEqual(pickle, 'Hello 10000000-1000-4000-8000-100000000000');
+
+        let uuid = Store.generate('generate:uuid');
+        assert.strictEqual(uuid, '10000000-1000-4000-8000-100000000000');
+
         randomStub.restore();
+    });
+
+    it('should be able to parse URL', function () {
+        Store.set('URLPath', 'https://www.autokinjs.com/hello?pathid=32422');
+
+        let epath = Store.interpolateValues('Hello {parse:path(URLPath)}', Store.storage);
+        assert.strictEqual(epath, 'Hello /hello?pathid=32422');
+
+        let eparam = Store.interpolateValues('Hello {parse:params(pathid,URLPath)}', Store.storage);
+        assert.strictEqual(eparam, 'Hello 32422');
+
+        let eunknwn = Store.interpolateValues('Hello {parse:unknown}', Store.storage);
+        assert.strictEqual(eunknwn, 'Hello {parse:unknown}');
+
+        Store.cacheStore = [];
+        let ehostname = Store.interpolateValues('Hello {parse:hostname(URLPath)}', Store.storage);
+        assert.strictEqual(ehostname, 'Hello www.autokinjs.com');
+
+        let ecache = Store.interpolateValues('Hello {parse:hostname(URLPath)}', Store.storage, true);
+        assert.strictEqual(ecache, 'Hello www.autokinjs.com');
+
+        let parserValue = Store.parse('parse:hostname(URLPath)');
+        assert.strictEqual(parserValue, 'www.autokinjs.com');
     });
 
 });
