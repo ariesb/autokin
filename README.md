@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/ariesb/autokin.svg?branch=master)](https://travis-ci.org/ariesb/autokin) [![Coverage Status](https://coveralls.io/repos/github/ariesb/autokin/badge.svg?branch=master)](https://coveralls.io/github/ariesb/autokin?branch=master)
-![npm](https://img.shields.io/npm/v/autokin?color=#00CF91)
+[![npm](https://img.shields.io/npm/v/autokin?color=#00CF91)](https://www.npmjs.com/package/autokin)
 
 # Autokin (Automation by Gherkin)
 
@@ -21,6 +21,7 @@ One of the simplest item that we do not want to missed is to break contract of f
 If these are something you need then Autokin can help you on that. Explore!
 
 ## What's New
+* Ability to perform test on Web application using Puppeteer
 * Ability to test response JSON Data against JSON Schema (https://json-schema.org/). [See example](#json-schema-comparison).
 * Allow pre-define variable set that can be loaded use within features
 * **Autokin Generators**: Ability to generate data randomly or based on certain list
