@@ -3,7 +3,9 @@
 
 # Autokin (Automation by Gherkin)
 
-This is a simple package/library that helps tester to do automation of REST/API using Gherkin without knowing JavaScript coding. All you need to know is Gherkin and you can start working and creating automated test for contract testing, or simple API test.
+This is a simple package/library that helps tester to do automation of REST/API using Gherkin without knowing JavaScript coding. All you need to know is Gherkin and you can start working and creating automated test for contract testing, or simple API test.  
+
+Introduced in `v1.8.0`, Autokin now supports web based automation using Puppeteer. You may now create Gherkin based test that targets browser application.
 
 One of the simplest item that we do not want to missed is to break contract of front end apps to our service apps. To make sure that we can detect this easy and early on we want the following:
 
