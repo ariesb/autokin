@@ -7,7 +7,7 @@
 const path = require('path');
 const fs = require('fs');
 
-module.exports.default = function ({ tags, formatter, junit, variables, time, html }) {
+module.exports.default = function ({ tags, formatter, junit, variables, time, html, ci }) {
     let formatterPath = path.resolve(__dirname, '../lib/formatter/autokin-formatter');
     let htmlFormatterPath = path.resolve(__dirname, '../lib/formatter/autokin-html-formatter');
 
@@ -25,6 +25,7 @@ module.exports.default = function ({ tags, formatter, junit, variables, time, ht
     if (tags) cliOptions = cliOptions.concat(['--tags', `${tags}`]);
     if (variables) process.env.AUTOKIN_VARS = variables;
     if (time) process.env.AUTOKIN_TIME = 'true';
+    if (ci) process.env.AUTOKIN_CI = 'true';
 
     let cli = new (require('cucumber').Cli)({ argv: cliOptions, cwd: process.cwd(), stdout: process.stdout });
     return new Promise(function (resolve, reject) {

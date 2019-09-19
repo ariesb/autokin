@@ -9,7 +9,7 @@ const fs = require('fs');
 const package = require(path.resolve(__dirname, '../package.json'));
 const { exec } = require('child_process');
 const semver = require('semver');
-const colors = require('colors');
+const colors = require('chalk');
 
 // check current published version
 let latestVersion = undefined;
@@ -41,6 +41,7 @@ program
     .option('-v, --variables [file-path]', 'Use with --exec to specify variable set from json file')
     .option('-w, --html [file-path]', 'Generate test result in html file')
     .option('-c, --clean', 'Deletes existing reports and snapshots before running new test.')
+    .option('-x, --ci', 'Run on CI Environment.')
     .parse(process.argv);
 
 let _getTags = () => program.tags ? program.tags : undefined;
