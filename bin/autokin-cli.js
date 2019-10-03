@@ -8,8 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports.default = function ({ specs, tags, formatter, junit, variables, time, html, ci }) {
-    let formatterPath = path.resolve(__dirname, '../lib/formatter/autokin-formatter');
-    let htmlFormatterPath = path.resolve(__dirname, '../lib/formatter/autokin-html-formatter');
+    let autokinPath = path.resolve(__dirname, '../lib/');
 
     if (!fs.existsSync('reports/snapshots')) {
         fs.mkdirSync('reports/snapshots', { recursive: true });
@@ -20,10 +19,10 @@ module.exports.default = function ({ specs, tags, formatter, junit, variables, t
 
     cliOptions = cliOptions.concat([
         '--format=json:reports/autokin-report.json',
-        '--format=' + formatterPath,
-        '--require=./lib/autokin-options.js',
-        '--require=./lib/autokin-rest-steps.js',
-        '--require=./lib/web/autokin-web.js']);
+        `--format=${autokinPath}/formatter/autokin-formatter`,
+        `--require=${autokinPath}/autokin-options.js`,
+        `--require=${autokinPath}/autokin-rest-steps.js`,
+        `--require=${autokinPath}/web/autokin-web.js`]);
         
     if (html)  { 
         const targetHtmlPath = typeof (html) == 'boolean' ? 'reports/autokin-result.html' : html;
