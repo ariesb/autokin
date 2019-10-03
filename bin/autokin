@@ -10,6 +10,7 @@ const package = require(path.resolve(__dirname, '../package.json'));
 const { exec } = require('child_process');
 const semver = require('semver');
 const colors = require('chalk');
+const Table = require('cli-table3');
 
 // check current published version
 let latestVersion = undefined;
@@ -19,14 +20,14 @@ exec('npm show autokin version', async (_error, stdout, _stderr) => {
 
 process.on('exit', () => {
     if (latestVersion && semver.gt(latestVersion, package.version))  {
-        const _version = `New version available: ${colors.bold.underline(latestVersion)}`;
+        const _version = `New version available: ${colors.yellow.bold.underline(latestVersion)}`;
         const _update = `Update now: ${colors.white.bold('npm install autokin')}.`;
-        const _pad = ''.padEnd(42, '─'); 
-        const pad = (s, l) => {
-            const ld = s.length - colors.strip(s).length;
-            return s.padEnd(l + ld, ' ');
-        };
-        process.stdout.write(colors.yellow(`\n\n┌${_pad}┐\n│ ${pad(_version, 40)} │\n│ ${pad(_update, 40)} │\n└${_pad}┘\n\n`));
+        let newVersionTable = new Table();
+        newVersionTable.push(
+            [_version],
+            [_update]
+        );
+        process.stdout.write('\n\n' + newVersionTable.toString() + '\n\n');
     }
 });
 
@@ -45,8 +46,6 @@ program
     .option('-x, --ci', 'Run on CI Environment.')
     .parse(process.argv);
 
-let _getTags = () => program.tags ? program.tags : undefined;
-let _getFormatters = () => program.formatter ? program.formatter : undefined;
 let clean = (folder) => {
     if (fs.existsSync(folder)) {
         fs.readdirSync(folder).forEach(function (item) {
