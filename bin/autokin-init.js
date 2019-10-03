@@ -32,8 +32,7 @@ module.exports.default = function () {
     process.stdout.write('Creating steps...');
     let steps_template = '// Autokin Generated File - Do not delete.\n\n' + 
                    'const { setDefaultTimeout } = require(\'cucumber\');\n' +
-                   'setDefaultTimeout(60 * 1000);\n' + 
-                   'module.exports = require(\'autokin/lib/autokin-rest-steps\');\n';
+                   'setDefaultTimeout(60 * 1000);\n'; 
     fs.writeFileSync(supportLocation + '/steps.js', steps_template);
     process.stdout.write('done.\n');
 
