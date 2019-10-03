@@ -104,6 +104,7 @@ Test Result Summary
 |------------------------------------|------------|-----------------------------------------------------------------------|
 | `--version`                        | `-V`       | Display version number                                                |
 | `--init`                           | `-i`       | Initialised new Autokin project structure                             |
+| `--specs [path]`                   | `-s`       | Specify path location of features, --specs myfeatures                 |
 | `--exec`                           | `-e`       | Execute automation test                                               |
 | `--tags [tags]`                    | `-t`       | Use with --exec to specify which tags to run, example:"@autokin"      |
 | `--junit`                          | `-j`       | Output additional result file in JUnit format                         |
