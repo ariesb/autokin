@@ -562,6 +562,7 @@ There are several steps that we can use to combine different test, expectations,
 | Given I have basic authentication credentials {username} and {password} | Set basic authentication |
 | Given I set the bearer token to {token} | Sets bearer token |
 | Given I set the bearer token with {stored value name} | Sets bearer token with stored value |
+| Given I set the request timeout to {timeout} seconds | Sets request timeout limit |
 
 ### When
 | Step  | Description  |
