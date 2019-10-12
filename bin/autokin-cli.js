@@ -22,7 +22,9 @@ module.exports.default = function ({ specs, tags, formatter, junit, variables, t
         `--format=${autokinPath}/formatter/autokin-formatter`,
         `--require=${autokinPath}/autokin-options.js`,
         `--require=${autokinPath}/autokin-rest-steps.js`,
-        `--require=${autokinPath}/web/autokin-web.js`]);
+        `--require=${autokinPath}/web/autokin-web.js`,
+        `--require=${autokinPath}/mobile/autokin-mobile.js`
+    ]);
         
     if (html)  { 
         const targetHtmlPath = typeof (html) == 'boolean' ? 'reports/autokin-result.html' : html;
