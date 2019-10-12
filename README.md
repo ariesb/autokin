@@ -5,6 +5,8 @@
 
 This is a simple package/library that helps tester to do automation of REST/API using Gherkin without knowing JavaScript coding. All you need to know is Gherkin and you can start working and creating automated test for contract testing, or simple API test.  
 
+Mobile testing through Appium introduced starting in `v1.9.0`. Basic connection, navigation, and interaction are added to perform series of test on mobile applciations. See documentation for more detailed steps.
+
 Introduced in `v1.8.0`, Autokin now supports web based automation using Puppeteer. You may now create Gherkin based test that targets browser application.
 
 One of the simplest item that we do not want to missed is to break contract of front end apps to our service apps. To make sure that we can detect this easy and early on we want the following:
@@ -23,12 +25,11 @@ One of the simplest item that we do not want to missed is to break contract of f
 If these are something you need then Autokin can help you on that. Explore!
 
 ## What's New
+* Ability to perform test om Mobile application through Appium server
 * Ability to perform test on Web application using Puppeteer
 * Ability to test response JSON Data against JSON Schema (https://json-schema.org/). [See example](#json-schema-comparison).
 * Allow pre-define variable set that can be loaded use within features
 * **Autokin Generators**: Ability to generate data randomly or based on certain list
-* Ability to test response execution time
-* New Console Log Outputs
 
 ## Creating an Autokin Project
 
