@@ -37,7 +37,7 @@ module.exports.default = function ({ specs, tags, formatter, junit, variables, t
     if (time) process.env.AUTOKIN_TIME = 'true';
     if (ci) process.env.AUTOKIN_CI = 'true';
 
-    let cli = new (require('cucumber').Cli)({ argv: cliOptions, cwd: process.cwd(), stdout: process.stdout });
+    let cli = new (require(`${process.cwd()}/node_modules/cucumber`).Cli)({ argv: cliOptions, cwd: process.cwd(), stdout: process.stdout });
     return new Promise(function (resolve, reject) {
         try {
             return cli.run()
