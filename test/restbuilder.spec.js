@@ -46,6 +46,14 @@ describe('Rest Builder', function () {
         it('should be able to get value as text', function () {
             assert.strictEqual(Builder.Response().Body().asText(), '{ "data": 0 }');
         });
+
+        it('should be able to query value as array of values', function () {
+            Builder.resp = new Response({ body: '{ "data": 0 }' });
+            assert.deepStrictEqual(
+                Builder.Response().Body().query('$.data'),
+                [0]
+            );
+        });
     });
 
     describe('Response', function () {        
