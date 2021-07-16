@@ -120,6 +120,21 @@ describe('Autokin Store', function () {
         randomStub.restore();
     });
 
+    it('should be able to perform 2 level interpolation', function () {
+        Store.set('number_key', 'numbers');
+        let randomStub = sinon.stub(Math, 'random');
+        randomStub.returns(0.00001);
+
+        process.env.NUMBER_KEY = 3;
+
+        let pickle = Store.interpolateValues(
+            'Hello {generate:any(<env:NUMBER_KEY>,number,lowercase)}',
+            Store.storage
+        );
+        assert.strictEqual(pickle, 'Hello aaa');
+        randomStub.restore();
+    });
+
     it('should be able to parse URL', function () {
         Store.set('URLPath', 'https://www.autokinjs.com/hello?pathid=32422');
 

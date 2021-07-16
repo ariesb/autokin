@@ -1,74 +1,75 @@
 {
-  "name": "autokin",
-  "version": "1.15.0",
-  "description": "Autokin - Simple REST Automation by Gherkin",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint",
-    "features": "cucumber-js --format progress-bar",
-    "test": "eslint lib/**/*.js test/**/*.js && nyc --reporter=text --reporter=lcov mocha test -c",
-    "test-coveralls": "nyc report --reporter=text-lcov | coveralls"
-  },
-  "bin": {
-    "autokin": "bin/autokin"
-  },
-  "keywords": [
-    "autokin",
-    "gherkin",
-    "REST",
-    "API",
-    "rest-api",
-    "rest-client",
-    "testing",
-    "automation"
-  ],
-  "homepage": "http://autokinjs.com",
-  "author": "Aries Beltran <ariesbe@icloud.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/ariesb/autokin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ariesb/autokin/issues"
-  },
-  "dependencies": {
-    "autokin-html-formatter": "^0.1.0",
-    "chai": "^4.2.0",
-    "chalk": "^2.4.2",
-    "cli-table3": "^0.5.1",
-    "commander": "^2.19.0",
-    "cucumber": "^5.1.0",
-    "cucumber-junit-formatter": "^0.1.3",
-    "deep-diff": "^1.0.2",
-    "i": "^0.3.6",
-    "jpeg-js": "^0.3.6",
-    "json-source-map": "^0.4.0",
-    "jsonpath": "^1.0.0",
-    "node-html-parser": "^1.1.16",
-    "npm": "^6.14.11",
-    "ora": "^3.4.0",
-    "playwright": "^1.8.0",
-    "pretty-ms": "^5.0.0",
-    "puppeteer": "^1.19.0",
-    "request": "^2.88.0",
-    "semver": "^6.3.0",
-    "tv4": "^1.3.0",
-    "wd": "^1.11.4",
-    "xmlbuilder": "^10.1.1"
-  },
-  "devDependencies": {
-    "coveralls": "^3.0.2",
-    "eslint": "^5.12.0",
-    "eslint-plugin-mocha": "^5.2.1",
-    "mocha": "^5.2.0",
-    "mocha-lcov-reporter": "^1.3.0",
-    "nock": "^10.0.6",
-    "nyc": "^14.1.1",
-    "sinon": "^7.3.2"
-  },
-  "files": [
-    "bin/",
-    "lib/"
-  ]
+    "name": "autokin",
+    "version": "1.15.0",
+    "description": "Autokin - Simple REST Automation by Gherkin",
+    "main": "index.js",
+    "scripts": {
+        "lint": "eslint",
+        "features": "cucumber-js --format progress-bar",
+        "test": "eslint lib/**/*.js test/**/*.js && nyc --reporter=text --reporter=lcov --reporter=text-summary mocha test -c",
+        "test-nocover": "mocha test -c",
+        "test-coveralls": "nyc report --reporter=text-lcov | coveralls"
+    },
+    "bin": {
+        "autokin": "bin/autokin"
+    },
+    "keywords": [
+        "autokin",
+        "gherkin",
+        "REST",
+        "API",
+        "rest-api",
+        "rest-client",
+        "testing",
+        "automation"
+    ],
+    "homepage": "http://autokinjs.com",
+    "author": "Aries Beltran <ariesbe@icloud.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/ariesb/autokin.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ariesb/autokin/issues"
+    },
+    "dependencies": {
+        "autokin-html-formatter": "^0.1.0",
+        "chai": "^4.2.0",
+        "chalk": "^2.4.2",
+        "cli-table3": "^0.5.1",
+        "commander": "^2.19.0",
+        "cucumber": "^5.1.0",
+        "cucumber-junit-formatter": "^0.1.3",
+        "deep-diff": "^1.0.2",
+        "i": "^0.3.6",
+        "jpeg-js": "^0.3.6",
+        "json-source-map": "^0.4.0",
+        "jsonpath": "^1.0.0",
+        "node-html-parser": "^1.1.16",
+        "npm": "^6.14.11",
+        "ora": "^3.4.0",
+        "playwright": "^1.8.0",
+        "pretty-ms": "^5.0.0",
+        "puppeteer": "^1.19.0",
+        "request": "^2.88.0",
+        "semver": "^6.3.0",
+        "tv4": "^1.3.0",
+        "wd": "^1.11.4",
+        "xmlbuilder": "^10.1.1"
+    },
+    "devDependencies": {
+        "coveralls": "^3.0.2",
+        "eslint": "^5.12.0",
+        "eslint-plugin-mocha": "^5.2.1",
+        "mocha": "^5.2.0",
+        "mocha-lcov-reporter": "^1.3.0",
+        "nock": "^10.0.6",
+        "nyc": "^14.1.1",
+        "sinon": "^7.3.2"
+    },
+    "files": [
+        "bin/",
+        "lib/"
+    ]
 }
