@@ -138,4 +138,27 @@ describe('Autokin Generators', function () {
         });
     });
 
+    describe('Generate Timestamp', function () {
+        it('should be able to generate timestamp of the current date', function () {
+            let randomStub = sinon.stub(Date, 'now');
+            randomStub.returns(946656000000);
+            assert.strictEqual(generators.timestamp(), 946656000000);
+            randomStub.restore();
+        });
+
+        it('should be able to generate timestamp of the current date with offset of negative 5 minutes', function () {
+            let randomStub = sinon.stub(Date, 'now');
+            randomStub.returns(946656000000);
+            assert.strictEqual(generators.timestamp(['-5']), 946655995000);
+            randomStub.restore();
+        });
+
+        it('should be able to generate timestamp of the current date with offset of positive 5 minutes', function () {
+            let randomStub = sinon.stub(Date, 'now');
+            randomStub.returns(946656000000);
+            assert.strictEqual(generators.timestamp(['5']), 946656005000);
+            randomStub.restore();
+        });
+    });
+
 });
