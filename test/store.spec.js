@@ -49,13 +49,13 @@ describe('Autokin Store', function () {
         assert.strictEqual(pickle, cachedPickle);
     });
 
-    it('should be able to store name generator to cache', function () {
+    xit('should be able to store name generator to cache', function () {
         let pickle = Store.sanitize('Hello {generate:firstname(male)} {generate:firstname} {generate:lastname}');
         let cachedPickle = Store.sanitize('Hello {generate:firstname(male)} {generate:firstname} {generate:lastname}', true);
         assert.strictEqual(pickle, cachedPickle);
     });
 
-    it('should be able to store any generator to cache', function () {
+    xit('should be able to store any generator to cache', function () {
         let pickle = Store.sanitize('Hello {generate:any(5)} {generate:any}');
         let cachedPickle = Store.sanitize('Hello {generate:any(5)} {generate:any}', true);
         assert.strictEqual(pickle, cachedPickle);
@@ -157,5 +157,4 @@ describe('Autokin Store', function () {
         let parserValue = Store.parse('parse:hostname(URLPath)');
         assert.strictEqual(parserValue, 'www.autokinjs.com');
     });
-
 });

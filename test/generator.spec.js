@@ -3,12 +3,11 @@ const generators = require('../lib/utilities/generators');
 const sinon = require('sinon');
 
 describe('Autokin Generators', function () {
-
     describe('Loading Names', function () {
         it('should be able to generate male first name based on the original name list', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.00001);
-            assert.strictEqual(generators.firstName('male'), 'Abbott');
+            assert.strictEqual(generators.firstName(['male']), 'Abbott');
             randomStub.restore();
         });
     });
@@ -21,9 +20,9 @@ describe('Autokin Generators', function () {
             callback.returns({
                 firstNames: {
                     male: ['Aaa', 'Abb', 'Acc'],
-                    female: ['Bbb', 'Baa', 'Bcc']
+                    female: ['Bbb', 'Baa', 'Bcc'],
                 },
-                lastNames: ['Lll', 'Laa', 'Lbb']
+                lastNames: ['Lll', 'Laa', 'Lbb'],
             });
         });
 
@@ -34,14 +33,14 @@ describe('Autokin Generators', function () {
         it('should be able to generate male first name based on name list', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.00001);
-            assert.strictEqual(generators.firstName('male'), 'Aaa');
+            assert.strictEqual(generators.firstName(['male']), 'Aaa');
             randomStub.restore();
         });
 
         it('should be able to generate female first name based on name list', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.00001);
-            assert.strictEqual(generators.firstName('female'), 'Bbb');
+            assert.strictEqual(generators.firstName(['female']), 'Bbb');
             randomStub.restore();
         });
 
@@ -65,21 +64,26 @@ describe('Autokin Generators', function () {
             assert.strictEqual(generators.lastName(), 'Lbb');
             randomStub.restore();
         });
-
     });
 
     describe('Generate Emails', function () {
         it('should be able to generate random email address', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.0001);
-            assert.strictEqual(generators.email(), 'aaaaaa.aaaaaa@autokinjs.com');
+            assert.strictEqual(
+                generators.email(),
+                'aaaaaa.aaaaaa@autokinjs.com'
+            );
             randomStub.restore();
         });
 
         it('should be able to generate random email address with custom domain', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.0001);
-            assert.strictEqual(generators.email('autokin.com'), 'aaaaaa.aaaaaa@autokin.com');
+            assert.strictEqual(
+                generators.email(['autokin.com']),
+                'aaaaaa.aaaaaa@autokin.com'
+            );
             randomStub.restore();
         });
     });
@@ -88,52 +92,44 @@ describe('Autokin Generators', function () {
         it('should be able to generate random string with capital letters', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.5);
-            assert.strictEqual(generators.any(3, {
-                lowercase: true,
-                uppercase: true
-            }), 'AAA');
+            assert.strictEqual(
+                generators.any([3, 'lowercase', 'uppercase']),
+                'AAA'
+            );
             randomStub.restore();
         });
 
         it('should be able to generate random string with numbers', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.723);
-            assert.strictEqual(generators.any(3, {
-                lowercase: true,
-                uppercase: false,
-                numbers: true
-            }), '111');
+            assert.strictEqual(
+                generators.any([3, 'lowercase', 'numbers']),
+                '111'
+            );
             randomStub.restore();
         });
 
         it('should be able to generate random string with symbols', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.531);
-            assert.strictEqual(generators.any(3, {
-                lowercase: true,
-                uppercase: false,
-                numbers: false,
-                symbols: true
-            }), '!!!');
+            assert.strictEqual(
+                generators.any([3, 'lowercase', 'symbols']),
+                '!!!'
+            );
             randomStub.restore();
         });
 
         it('should be able to generate random string with just numbers', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.00001);
-            assert.strictEqual(generators.any(3, {
-                lowercase: false,
-                uppercase: false,
-                numbers: true,
-                symbols: false
-            }), '111');
+            assert.strictEqual(generators.any([3, 'numbers']), '111');
             randomStub.restore();
         });
 
         it('should be able to generate random string with small letters only', function () {
             let randomStub = sinon.stub(Math, 'random');
             randomStub.returns(0.00001);
-            assert.strictEqual(generators.any(3), 'aaa');
+            assert.strictEqual(generators.any([3]), 'aaa');
             randomStub.restore();
         });
     });
@@ -159,6 +155,12 @@ describe('Autokin Generators', function () {
             assert.strictEqual(generators.timestamp(['5']), 946656005000);
             randomStub.restore();
         });
-    });
 
+        it('should be able to generate timestamp of the current date with offset of positive 5 minutes with 1000 modifier', function () {
+            let randomStub = sinon.stub(Date, 'now');
+            randomStub.returns(946656000000);
+            assert.strictEqual(generators.timestamp(['5', '1000']), 946656005);
+            randomStub.restore();
+        });
+    });
 });
