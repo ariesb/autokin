@@ -158,8 +158,8 @@ describe('Autokin Generators', function () {
 
         it('should be able to generate timestamp of the current date with offset of positive 5 minutes with 1000 modifier', function () {
             let randomStub = sinon.stub(Date, 'now');
-            randomStub.returns(946656000000);
-            assert.strictEqual(generators.timestamp(['5', '1000']), 946656005);
+            randomStub.returns(1628141093219);
+            assert.strictEqual(generators.timestamp(['0', '1000']), 1628141093);
             randomStub.restore();
         });
     });
