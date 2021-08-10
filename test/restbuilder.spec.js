@@ -261,6 +261,46 @@ describe('Rest Builder', function () {
                 assert.strictEqual(Builder.Response().Body().isJSON(), false);
             }, 'GET');
         });
+
+        it('should be able to GET a request and filter by object keys', function () {
+            nock('https://domain.com')
+                .get('/sample/uri')
+                .reply(200, '{ "data": {"items": [{"k1":"a","k2":"b"},{"k1":"b","k2":"c"},{"k1":"b","k2":"c"}]}}');
+
+            Builder.reset();
+            Builder.host('domain.com');
+            Builder.process(
+                '/sample/uri',
+                function () {
+                    let data = Builder.Response()
+                        .Body()
+                        .filterObjectKeys('$.data.items.*', { k1: 'a' });
+                    assert.strictEqual(data.length, 1);
+
+                    data = Builder.Response()
+                        .Body()
+                        .filterObjectKeys('$.data.items.*', { k1: 'b' });
+                    assert.strictEqual(data.length, 2);
+
+                    data = Builder.Response()
+                        .Body()
+                        .filterObjectKeys(
+                            '$.data.items.*',
+                            { k1: 'b', k2: 'c' }
+                        );
+                    assert.strictEqual(data.length, 2);
+
+                    data = Builder.Response()
+                        .Body()
+                        .filterObjectKeys('$.data.items.*', {
+                            k1: 'a',
+                            k2: 'b',
+                        });
+                    assert.strictEqual(data.length, 1);
+                },
+                'GET'
+            );
+        });
     });
 
     describe('Body Schema Comaprison', function () {
