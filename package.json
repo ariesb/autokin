@@ -1,6 +1,6 @@
 {
     "name": "autokin",
-    "version": "1.17.1",
+    "version": "1.17.2",
     "description": "Autokin - Simple REST Automation by Gherkin",
     "main": "index.js",
     "scripts": {
