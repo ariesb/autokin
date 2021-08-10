@@ -241,36 +241,43 @@ describe('Rest Builder', function () {
 
         it('should be able to GET a request with error', function () {
             nock('https://domain.com')
-                .get('/sample/uri')
+                .get('/sample/uri400')
                 .reply(400);
     
             Builder.reset();
             Builder.host('domainx.com');
-            Builder.process('/sample/uri', function () {
+            Builder.process('/sample/uri400', function () {
             });
         });
 
         it('should be able to GET a request with HTML body', function () {
             nock('https://domain.com')
-                .get('/sample/uri')
+                .get('/sample/html')
                 .reply(200, '<html></html>');
 
             Builder.reset();
             Builder.host('domain.com');
-            Builder.process('/sample/uri', function () {
-                assert.strictEqual(Builder.Response().Body().isJSON(), false);
-            }, 'GET');
+            Builder.process(
+                '/sample/html',
+                function () {
+                    assert.strictEqual(
+                        Builder.Response().Body().isJSON(),
+                        false
+                    );
+                },
+                'GET'
+            );
         });
 
         it('should be able to GET a request and filter by object keys', function () {
             nock('https://domain.com')
-                .get('/sample/uri')
-                .reply(200, '{ "data": {"items": [{"k1":"a","k2":"b"},{"k1":"b","k2":"c"},{"k1":"b","k2":"c"}]}}');
+                .get('/sample/json')
+                .reply(200, '{"data":{"items":[{"k1":"a","k2":"b"},{"k1":"b","k2":"c","k3":{"k3a":"x"}},{"k1":"b","k2":"c"}]}}');
 
             Builder.reset();
             Builder.host('domain.com');
             Builder.process(
-                '/sample/uri',
+                '/sample/json',
                 function () {
                     let data = Builder.Response()
                         .Body()
@@ -284,10 +291,10 @@ describe('Rest Builder', function () {
 
                     data = Builder.Response()
                         .Body()
-                        .filterObjectKeys(
-                            '$.data.items.*',
-                            { k1: 'b', k2: 'c' }
-                        );
+                        .filterObjectKeys('$.data.items.*', {
+                            k1: 'b',
+                            k2: 'c',
+                        });
                     assert.strictEqual(data.length, 2);
 
                     data = Builder.Response()
@@ -295,6 +302,14 @@ describe('Rest Builder', function () {
                         .filterObjectKeys('$.data.items.*', {
                             k1: 'a',
                             k2: 'b',
+                        });
+                    assert.strictEqual(data.length, 1);
+
+                    data = Builder.Response()
+                        .Body()
+                        .filterObjectKeys('$.data.items.*', {
+                            k1: 'b',
+                            'k3.k3a': 'x',
                         });
                     assert.strictEqual(data.length, 1);
                 },
